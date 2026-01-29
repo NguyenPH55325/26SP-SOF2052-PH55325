@@ -32,6 +32,8 @@
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             groupBox2 = new GroupBox();
+            txtThanhTien = new TextBox();
+            label31 = new Label();
             btnXoaCT = new Button();
             btnSuaCT = new Button();
             btnThemCT = new Button();
@@ -39,9 +41,9 @@
             txtDonGia = new TextBox();
             label7 = new Label();
             label6 = new Label();
-            txtTenHangHoa = new TextBox();
+            txtTenSanPham = new TextBox();
             label4 = new Label();
-            txtMaHangHoa = new TextBox();
+            txtMaSanPham = new TextBox();
             label5 = new Label();
             label3 = new Label();
             groupBox1 = new GroupBox();
@@ -112,9 +114,9 @@
             btnThemSanPham = new Button();
             cbbTrangThaiSP = new ComboBox();
             label20 = new Label();
-            txtMaSanPham = new TextBox();
+            txtMaSanPham1 = new TextBox();
             label28 = new Label();
-            txtTenSanPham = new TextBox();
+            txtTenSanPham1 = new TextBox();
             label27 = new Label();
             label26 = new Label();
             dgvSanPham = new DataGridView();
@@ -174,6 +176,8 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(txtThanhTien);
+            groupBox2.Controls.Add(label31);
             groupBox2.Controls.Add(btnXoaCT);
             groupBox2.Controls.Add(btnSuaCT);
             groupBox2.Controls.Add(btnThemCT);
@@ -181,43 +185,63 @@
             groupBox2.Controls.Add(txtDonGia);
             groupBox2.Controls.Add(label7);
             groupBox2.Controls.Add(label6);
-            groupBox2.Controls.Add(txtTenHangHoa);
+            groupBox2.Controls.Add(txtTenSanPham);
             groupBox2.Controls.Add(label4);
-            groupBox2.Controls.Add(txtMaHangHoa);
+            groupBox2.Controls.Add(txtMaSanPham);
             groupBox2.Controls.Add(label5);
-            groupBox2.Location = new Point(405, 70);
+            groupBox2.Location = new Point(405, 50);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(365, 226);
+            groupBox2.Size = new Size(365, 254);
             groupBox2.TabIndex = 4;
             groupBox2.TabStop = false;
             groupBox2.Text = "Chi Tiết Hóa Đơn";
             // 
+            // txtThanhTien
+            // 
+            txtThanhTien.Location = new Point(116, 186);
+            txtThanhTien.Name = "txtThanhTien";
+            txtThanhTien.ReadOnly = true;
+            txtThanhTien.Size = new Size(125, 27);
+            txtThanhTien.TabIndex = 16;
+            // 
+            // label31
+            // 
+            label31.AutoSize = true;
+            label31.Location = new Point(36, 186);
+            label31.Name = "label31";
+            label31.Size = new Size(81, 20);
+            label31.TabIndex = 15;
+            label31.Text = "Thành Tiền";
+            // 
             // btnXoaCT
             // 
-            btnXoaCT.Location = new Point(239, 191);
+            btnXoaCT.Location = new Point(239, 219);
             btnXoaCT.Name = "btnXoaCT";
             btnXoaCT.Size = new Size(94, 29);
             btnXoaCT.TabIndex = 14;
             btnXoaCT.Text = "Xóa";
             btnXoaCT.UseVisualStyleBackColor = true;
+            btnXoaCT.Click += btnXoaCT_Click;
             // 
             // btnSuaCT
             // 
-            btnSuaCT.Location = new Point(138, 191);
+            btnSuaCT.Location = new Point(139, 219);
             btnSuaCT.Name = "btnSuaCT";
             btnSuaCT.Size = new Size(94, 29);
             btnSuaCT.TabIndex = 13;
             btnSuaCT.Text = "Sửa";
             btnSuaCT.UseVisualStyleBackColor = true;
+            btnSuaCT.Click += btnSuaCT_Click;
             // 
             // btnThemCT
             // 
-            btnThemCT.Location = new Point(38, 191);
+            btnThemCT.Location = new Point(28, 219);
             btnThemCT.Name = "btnThemCT";
             btnThemCT.Size = new Size(94, 29);
             btnThemCT.TabIndex = 12;
             btnThemCT.Text = "Thêm";
             btnThemCT.UseVisualStyleBackColor = true;
+            btnThemCT.Click += btnThemCT_Click;
             // 
             // txtSoLuong
             // 
@@ -252,44 +276,44 @@
             label6.TabIndex = 4;
             label6.Text = "Số Lượng";
             // 
-            // txtTenHangHoa
+            // txtTenSanPham
             // 
-            txtTenHangHoa.Location = new Point(114, 79);
-            txtTenHangHoa.Name = "txtTenHangHoa";
-            txtTenHangHoa.Size = new Size(219, 27);
-            txtTenHangHoa.TabIndex = 3;
+            txtTenSanPham.Location = new Point(114, 79);
+            txtTenSanPham.Name = "txtTenSanPham";
+            txtTenSanPham.Size = new Size(219, 27);
+            txtTenSanPham.TabIndex = 3;
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Location = new Point(6, 79);
             label4.Name = "label4";
-            label4.Size = new Size(104, 20);
+            label4.Size = new Size(101, 20);
             label4.TabIndex = 2;
-            label4.Text = "Tên Hàng Hóa";
+            label4.Text = "Tên Sản Phẩm";
             // 
-            // txtMaHangHoa
+            // txtMaSanPham
             // 
-            txtMaHangHoa.Location = new Point(114, 41);
-            txtMaHangHoa.Name = "txtMaHangHoa";
-            txtMaHangHoa.Size = new Size(219, 27);
-            txtMaHangHoa.TabIndex = 1;
+            txtMaSanPham.Location = new Point(114, 41);
+            txtMaSanPham.Name = "txtMaSanPham";
+            txtMaSanPham.Size = new Size(219, 27);
+            txtMaSanPham.TabIndex = 1;
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Location = new Point(6, 41);
             label5.Name = "label5";
-            label5.Size = new Size(102, 20);
+            label5.Size = new Size(99, 20);
             label5.TabIndex = 0;
-            label5.Text = "Mã Hàng Hóa";
+            label5.Text = "Mã Sản Phẩm";
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.ForeColor = SystemColors.HotTrack;
-            label3.Location = new Point(283, 15);
+            label3.Location = new Point(275, 3);
             label3.Name = "label3";
             label3.Size = new Size(238, 35);
             label3.TabIndex = 3;
@@ -309,7 +333,7 @@
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(txtMaHoaDon);
             groupBox1.Controls.Add(label1);
-            groupBox1.Location = new Point(22, 70);
+            groupBox1.Location = new Point(16, 41);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(365, 226);
             groupBox1.TabIndex = 2;
@@ -333,6 +357,7 @@
             btnLamMoi.TabIndex = 10;
             btnLamMoi.Text = "Làm mới";
             btnLamMoi.UseVisualStyleBackColor = true;
+            btnLamMoi.Click += btnLamMoi_Click_1;
             // 
             // btnSua
             // 
@@ -342,6 +367,7 @@
             btnSua.TabIndex = 9;
             btnSua.Text = "Sửa ";
             btnSua.UseVisualStyleBackColor = true;
+            btnSua.Click += btnSua_Click;
             // 
             // btnXoa
             // 
@@ -351,6 +377,7 @@
             btnXoa.TabIndex = 8;
             btnXoa.Text = "Xóa";
             btnXoa.UseVisualStyleBackColor = true;
+            btnXoa.Click += btnXoa_Click;
             // 
             // rdoDaThanhToan
             // 
@@ -391,6 +418,7 @@
             btnThem.TabIndex = 4;
             btnThem.Text = "Thêm";
             btnThem.UseVisualStyleBackColor = true;
+            btnThem.Click += btnThem_Click;
             // 
             // txtNgayTao
             // 
@@ -429,10 +457,10 @@
             // 
             dgvDsHoaDon.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvDsHoaDon.Columns.AddRange(new DataGridViewColumn[] { Column6, Column7, Column8 });
-            dgvDsHoaDon.Location = new Point(6, 302);
+            dgvDsHoaDon.Location = new Point(6, 310);
             dgvDsHoaDon.Name = "dgvDsHoaDon";
             dgvDsHoaDon.RowHeadersWidth = 51;
-            dgvDsHoaDon.Size = new Size(767, 110);
+            dgvDsHoaDon.Size = new Size(767, 102);
             dgvDsHoaDon.TabIndex = 1;
             // 
             // Column6
@@ -477,7 +505,7 @@
             dgvDsChiTietHoaDon.Location = new Point(3, 3);
             dgvDsChiTietHoaDon.Name = "dgvDsChiTietHoaDon";
             dgvDsChiTietHoaDon.RowHeadersWidth = 51;
-            dgvDsChiTietHoaDon.Size = new Size(604, 412);
+            dgvDsChiTietHoaDon.Size = new Size(616, 266);
             dgvDsChiTietHoaDon.TabIndex = 0;
             dgvDsChiTietHoaDon.CellContentClick += dgvDsChiTietHoaDon_CellContentClick;
             // 
@@ -892,9 +920,9 @@
             tabPage5.Controls.Add(btnThemSanPham);
             tabPage5.Controls.Add(cbbTrangThaiSP);
             tabPage5.Controls.Add(label20);
-            tabPage5.Controls.Add(txtMaSanPham);
+            tabPage5.Controls.Add(txtMaSanPham1);
             tabPage5.Controls.Add(label28);
-            tabPage5.Controls.Add(txtTenSanPham);
+            tabPage5.Controls.Add(txtTenSanPham1);
             tabPage5.Controls.Add(label27);
             tabPage5.Controls.Add(label26);
             tabPage5.Controls.Add(dgvSanPham);
@@ -966,12 +994,12 @@
             label20.TabIndex = 11;
             label20.Text = "Trạng Thái";
             // 
-            // txtMaSanPham
+            // txtMaSanPham1
             // 
-            txtMaSanPham.Location = new Point(141, 70);
-            txtMaSanPham.Name = "txtMaSanPham";
-            txtMaSanPham.Size = new Size(243, 27);
-            txtMaSanPham.TabIndex = 10;
+            txtMaSanPham1.Location = new Point(141, 70);
+            txtMaSanPham1.Name = "txtMaSanPham1";
+            txtMaSanPham1.Size = new Size(243, 27);
+            txtMaSanPham1.TabIndex = 10;
             // 
             // label28
             // 
@@ -982,12 +1010,12 @@
             label28.TabIndex = 9;
             label28.Text = "Mã Sản Phẩm";
             // 
-            // txtTenSanPham
+            // txtTenSanPham1
             // 
-            txtTenSanPham.Location = new Point(141, 110);
-            txtTenSanPham.Name = "txtTenSanPham";
-            txtTenSanPham.Size = new Size(243, 27);
-            txtTenSanPham.TabIndex = 8;
+            txtTenSanPham1.Location = new Point(141, 110);
+            txtTenSanPham1.Name = "txtTenSanPham1";
+            txtTenSanPham1.Size = new Size(243, 27);
+            txtTenSanPham1.TabIndex = 8;
             // 
             // label27
             // 
@@ -1066,6 +1094,7 @@
             Controls.Add(tabControl1);
             Name = "MainForm";
             Text = "MainForm";
+            Load += MainForm_Load;
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
@@ -1115,9 +1144,9 @@
         private GroupBox groupBox2;
         private Label label7;
         private Label label6;
-        private TextBox txtTenHangHoa;
+        private TextBox txtTenSanPham;
         private Label label4;
-        private TextBox txtMaHangHoa;
+        private TextBox txtMaSanPham;
         private Label label5;
         private Label label3;
         private TextBox txtSoLuong;
@@ -1177,9 +1206,9 @@
         private DataGridView dgvSanPhamChiTiet;
         private TextBox txtTenKH;
         private TextBox txtSDTKH;
-        private TextBox txtMaSanPham;
+        private TextBox txtMaSanPham1;
         private Label label28;
-        private TextBox txtTenSanPham;
+        private TextBox txtTenSanPham1;
         private Label label27;
         private Label label26;
         private ComboBox cbbTrangThaiNV;
@@ -1195,5 +1224,7 @@
         private DataGridViewTextBoxColumn Column8;
         private BindingSource chiTietHoaDonBindingSource;
         private BindingSource chiTietHoaDonBindingSource1;
+        private TextBox txtThanhTien;
+        private Label label31;
     }
 }

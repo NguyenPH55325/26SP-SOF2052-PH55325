@@ -52,6 +52,9 @@ namespace DemoDuAnMauCSharp.Utils
 
         public static DataTable ExecuteQueryTable(string sql, List<object> parameters)
         {
+            // 🔥 BẮT BUỘC MỞ KẾT NỐI
+            OpenConnection();
+
             SqlCommand command = new(sql, _connection);
 
             if (parameters != null)
@@ -68,22 +71,30 @@ namespace DemoDuAnMauCSharp.Utils
             DataTable dt = new();
             adapter.Fill(dt);
 
+            // 🔥 ĐÓNG KẾT NỐI (OPTIONAL NHƯNG NÊN)
+            CloseConnection();
+
             return dt;
         }
 
         public static void ExecuteNonQuery(string sql, List<object> parameters)
         {
+            OpenConnection();
+
+            SqlCommand command = new(sql, _connection);
+
             if (parameters != null)
             {
-                SqlCommand command = new(sql, _connection);
                 int i = -1;
-                parameters.ForEach((prm) =>
+                parameters.ForEach(prm =>
                 {
                     i++;
                     command.Parameters.AddWithValue($"@{i}", prm ?? DBNull.Value);
                 });
-                command.ExecuteNonQuery();
             }
+
+            command.ExecuteNonQuery();
+            CloseConnection();
         }
 
         public static string? CloseConnection()

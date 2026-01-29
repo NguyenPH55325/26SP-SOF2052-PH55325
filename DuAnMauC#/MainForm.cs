@@ -17,7 +17,16 @@ namespace DuAnMauC_
         public MainForm()
         {
             InitializeComponent();
-            SelectAll();
+
+            this.Load += MainForm_Load;
+            dgvDsHoaDon.SelectionChanged += dgvDsHoaDon_SelectionChanged;
+        }
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            dgvDsChiTietHoaDon.AutoGenerateColumns = true;
+            dgvDsChiTietHoaDon.Dock = DockStyle.Fill;
+
+            SelectAll(); // ✅ GỌI Ở ĐÂY
         }
         public void SelectAll()
         {
@@ -25,7 +34,7 @@ namespace DuAnMauC_
             dgvDsHoaDon.DataSource = HoaDonDAL.SelectAll();
             dgvNhanVien.DataSource = NhanVienDAL.SelectAll();
             dgvKhachHang.DataSource = KhachHangDAL.SelectAll();
-           
+
             dgvSanPham.DataSource = SanPhamDAL.SelectAll();
             dgvSanPhamChiTiet.DataSource = SanPhamChiTietDAL.SelectAll();
 
@@ -36,74 +45,59 @@ namespace DuAnMauC_
 
         private void dgvDsHoaDon_SelectionChanged(object sender, EventArgs e)
         {
+            if (!this.IsHandleCreated) return;
             if (dgvDsHoaDon.CurrentRow == null) return;
+            if (dgvDsHoaDon.DataSource == null) return;
 
-            int row = dgvDsHoaDon.CurrentRow.Index;
             DataTable tmp = dgvDsHoaDon.DataSource as DataTable;
-
             if (tmp == null || tmp.Rows.Count == 0) return;
 
-            HoaDon hoaDon = new()
+            int row = dgvDsHoaDon.CurrentRow.Index;
+            if (row < 0 || row >= tmp.Rows.Count) return;
+
+            HoaDon hoaDon = new HoaDon
             {
-                MaHoaDon = Convert.ToString(tmp.Rows[row][0]),
+                MaHoaDon = tmp.Rows[row][0].ToString(),
                 NgayTao = Convert.ToDateTime(tmp.Rows[row][1]),
                 TrangThai = Convert.ToBoolean(tmp.Rows[row][2])
             };
-         
+
             txtMaHoaDon.Text = hoaDon.MaHoaDon;
             txtNgayTao.Text = hoaDon.NgayTao.ToString("yyyy-MM-dd");
 
-            var test = ChiTietHoaDonDAL.SelectAll(hoaDon.MaHoaDon);
+            DataTable data = ChiTietHoaDonDAL.SelectAll(hoaDon.MaHoaDon);
 
-           
-
-            dgvDsChiTietHoaDon.Columns.Clear();
-            
-            dgvDsChiTietHoaDon.DataSource = test; 
-
+            dgvDsChiTietHoaDon.DataSource = null;
+            dgvDsChiTietHoaDon.DataSource = data;
 
             rdoDaThanhToan.Checked = hoaDon.TrangThai;
             rdoChoXacNhan.Checked = !hoaDon.TrangThai;
         }
 
+        private void btnThanhToan_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show(this, "Xác nhận khách hàng đã thanh toán đầy đủ", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.OK)
+            {
+                HoaDonDAL.ThanhToan(txtMaHoaDon.Text);
+            }
+        }
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show(this, "Tạo hóa đơn mới", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.OK)
+            {
+                HoaDonDAL.TaoMoi(new HoaDon()
+                {
+                    MaHoaDon = txtMaHoaDon.Text,
+                    NgayTao = DateTime.ParseExact(txtNgayTao.Text, "yyyy-MM-dd", null),
+                    TrangThai = rdoDaThanhToan.Checked
+                });
+            }
+        }
 
 
 
-
-        //private void dgvDsHoaDon_SelectionChanged(object sender, EventArgs e)
-        //{
-
-        //    int row = dgvDsHoaDon.CurrentRow.Index;
-
-        //    DataTable tmp = (DataTable)dgvDsHoaDon.DataSource;
-
-        //    if (tmp != null && tmp.Rows.Count > 0)
-        //    {
-        //        HoaDon hoaDon = new()
-        //        {
-        //            MaHoaDon = Convert.ToString(tmp.Rows[row][0]),
-        //            NgayTao = Convert.ToDateTime(tmp.Rows[row][1]),
-        //            TrangThai = Convert.ToBoolean(tmp.Rows[row][2])
-        //        };
-
-        //        txtMaHoaDon.Text = hoaDon.MaHoaDon;
-        //        int idHoaDon = Convert.ToInt32(
-        //              dgvDsHoaDon.CurrentRow.Cells["id"].Value
-        //                                                        );
-        //        dgvDsChiTietHoaDon.DataSource =
-        //        ChiTietHoaDonDAL.SelectAll(idHoaDon);
-        //        txtNgayTao.Text = hoaDon.NgayTao.ToString("yyyy-MM-dd");
-        //        if (hoaDon.TrangThai)
-        //        {
-        //            rdoDaThanhToan.Checked = true;
-        //        }
-        //        else
-        //        {
-        //            rdoChoXacNhan.Checked = true;
-        //        }
-        //    }
-
-        //}
         private void label1_Click(object sender, EventArgs e)
         {
             // ấn nhầm
@@ -134,106 +128,79 @@ namespace DuAnMauC_
 
         }
 
-        //private void btnLamMoi_Click(object sender, EventArgs e)
-        //{
-        //    SelectAll();
-        //}
+        private void btnLamMoi_Click(object sender, EventArgs e)
+        {
+            SelectAll();
+        }
 
-        //private void btnThanhToan_Click(object sender, EventArgs e)
-        //{
-        //    DialogResult dialogResult = MessageBox.Show(this, "Xác nhận khách hàng đã thanh toán đầy đủ", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-        //    if (dialogResult == DialogResult.OK)
-        //    {
-        //        HoaDonDAL.ThanhToan(txtMaHoaDon.Text);
-        //    }
-        //}
+        private void btnLamMoi_Click_1(object sender, EventArgs e)
+        {
 
-        //private void btnThem_Click(object sender, EventArgs e)
-        //{
-        //    DialogResult dialogResult = MessageBox.Show(this, "Tạo hóa đơn mới", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-        //    if (dialogResult == DialogResult.OK)
-        //    {
-        //        HoaDonDAL.TaoMoi(new HoaDon()
-        //        {
-        //            MaHoaDon = txtMaHoaDon.Text,
-        //            NgayTao = DateTime.ParseExact(txtNgayTao.Text, "yyyy-MM-dd", null),
-        //            TrangThai = rdoDaThanhToan.Checked
-        //        });
-        //    }
-        //}
+        }
 
-        //private void btnSua_Click(object sender, EventArgs e)
-        //{
-        //    DialogResult dialogResult = MessageBox.Show(this, "Sửa hóa đơn", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-        //    if (dialogResult == DialogResult.OK)
-        //    {
-        //        HoaDonDAL.CapNhat(new HoaDon()
-        //        {
-        //            MaHoaDon = txtMaHoaDon.Text,
-        //            NgayTao = DateTime.ParseExact(txtNgayTao.Text, "yyyy-MM-dd", null),
-        //            TrangThai = rdoDaThanhToan.Checked
-        //        });
-        //    }
-        //}
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show(this, "Sửa hóa đơn", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.OK)
+            {
+                HoaDonDAL.CapNhat(new HoaDon()
+                {
+                    MaHoaDon = txtMaHoaDon.Text,
+                    NgayTao = DateTime.ParseExact(txtNgayTao.Text, "yyyy-MM-dd", null),
+                    TrangThai = rdoDaThanhToan.Checked
+                });
+            }
+        }
 
-        //private void btnXoa_Click(object sender, EventArgs e)
-        //{
-        //    DialogResult dialogResult = MessageBox.Show(this, "Xóa hóa đơn", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-        //    if (dialogResult == DialogResult.OK)
-        //    {
-        //        HoaDonDAL.Xoa(txtMaHoaDon.Text);
-        //    }
-        //}
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show(this, "Xóa hóa đơn", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.OK)
+            {
+                HoaDonDAL.Xoa(txtMaHoaDon.Text);
+            }
+        }
+        private void btnThemCT_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show(this, "Thêm chi tiết hóa đơn", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.OK)
+            {
+                ChiTietHoaDonDAL.TaoMoi(new ChiTietHoaDon()
+                {
+                    MaHoaDon = txtMaHoaDon.Text,
+                    MaSanPhamChiTiet = txtMaSanPham.Text,
+                    DonGia = Decimal.Parse(txtDonGia.Text),
+                    SoLuong = int.Parse(txtSoLuong.Text),
+                   
+                });
+            }
+        }
 
-        //private void btnThemCT_Click(object sender, EventArgs e)
-        //{
-        //    DialogResult dialogResult = MessageBox.Show(this, "Thêm chi tiết hóa đơn", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-        //    if (dialogResult == DialogResult.OK)
-        //    {
-        //        ChiTietHoaDonDAL.TaoMoi(new ChiTietHoaDon()
-        //        {
-        //            MaHoaDon = txtMaHoaDon.Text,
-        //            MaHangHoa = txtMaHangHoa.Text,
-        //            DonGia = Convert.ToDouble(txtDonGia.Text),
-        //            SoLuongXuat = Convert.ToSingle(txtSoLuong.Text)
-        //        });
-        //    }
-        //}
 
-        //private void btnSuaCT_Click(object sender, EventArgs e)
-        //{
-        //    DialogResult dialogResult = MessageBox.Show(this, "Sửa chi tiết hóa đơn", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-        //    if (dialogResult == DialogResult.OK)
-        //    {
-        //        ChiTietHoaDonDAL.CapNhat(new ChiTietHoaDon()
-        //        {
-        //            MaHoaDon = txtMaHoaDon.Text,
-        //            MaHangHoa = txtMaHangHoa.Text,
-        //            DonGia = Convert.ToDouble(txtDonGia.Text),
-        //            SoLuongXuat = Convert.ToSingle(txtSoLuong.Text)
-        //        });
-        //    }
-        //}
+        private void btnSuaCT_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show(this, "Sửa chi tiết hóa đơn", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.OK)
+            {
+                ChiTietHoaDonDAL.CapNhat(new ChiTietHoaDon()
+                {
+                    MaHoaDon = txtMaHoaDon.Text,
+                    MaSanPhamChiTiet = txtMaSanPham.Text,
+                    DonGia = Decimal.Parse(txtDonGia.Text),
+                    SoLuong = int.Parse(txtSoLuong.Text),
+                });
+            }
+        }
 
-        //private void btnXoaCT_Click(object sender, EventArgs e)
-        //{
-        //    DialogResult dialogResult = MessageBox.Show(this, "Xóa chi tiết hóa đơn", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-        //    if (dialogResult == DialogResult.OK)
-        //    {
-        //        ChiTietHoaDonDAL.Xoa(txtMaHoaDon.Text, txtMaHangHoa.Text);
-        //    }
-        //}
-
-        //private void txtMaHangHoa_TextChanged(object sender, EventArgs e)
-        //{
-        //    DataTable tmp = HangHoaDAL.SelectHangHoa(txtMaHangHoa.Text);
-        //    if (tmp != null && tmp.Rows.Count > 0)
-        //    {
-        //        txtTenHangHoa.Text = Convert.ToString(tmp.Rows[0]["TEN_HANG_HOA"]);
-        //        txtDonGia.Text = Convert.ToString(tmp.Rows[0]["DON_GIA"]);
-        //        txtSoLuong.Text = "1";
-        //    }
-        //}
+        private void btnXoaCT_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show(this, "Xóa chi tiết hóa đơn", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.OK)
+            {
+                ChiTietHoaDonDAL.Xoa(txtMaHoaDon.Text, txtMaSanPham.Text);
+            }
+        }
+       
     }
 
 }
