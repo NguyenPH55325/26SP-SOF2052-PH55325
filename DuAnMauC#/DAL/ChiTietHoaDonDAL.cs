@@ -1,85 +1,93 @@
 ﻿using DemoDuAnMauCSharp.Utils;
-using DuAnMauC_.DAL;
 using DuAnMauC_.DAO;
 using Microsoft.Data.SqlClient;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DuAnMauC_.DAL
 {
     public static class ChiTietHoaDonDAL
     {
-
+        // ===================== SELECT THEO MÃ HÓA ĐƠN =====================
         public static DataTable SelectAll(string maHoaDon)
         {
-            DBUtil.OpenConnection();
-
             string sql = @"
-        SELECT 
-            ma_hd      AS MaHoaDon,
-            ma_spct      AS MaSanPham,
-            so_luong   AS SoLuong,
-            don_gia    AS DonGia,
-            so_luong * don_gia AS ThanhTien
-        FROM hoa_don_chi_tiet
-        WHERE ma_hd = @0
-    ";
+                SELECT 
+                    ma_hd      AS MaHoaDon,
+                    ma_spct    AS MaSanPhamChiTiet,
+                    so_luong   AS SoLuong,
+                    don_gia    AS DonGia,
+                    so_luong * don_gia AS ThanhTien
+                FROM hoa_don_chi_tiet
+                WHERE ma_hd = @ma_hd
+            ";
 
-            DataTable dt = DBUtil.ExecuteQueryTable(
-                sql,
-                new List<object> { maHoaDon }
-            );
+            List<SqlParameter> param = new()
+            {
+                new SqlParameter("@ma_hd", maHoaDon)
+            };
 
-            DBUtil.CloseConnection();
-            return dt;
-        }
-        public static void TaoMoi(ChiTietHoaDon chiTietHoaDon)
-        {
-            DBUtil.OpenConnection();
-            DBUtil.ExecuteNonQuery(
-                "INSERT INTO Chi_Tiet_Hoa_Don (ma_hd, ma_spct, don_gia, so_luong, thanh_tien) VALUES (@0, @1, @2, @3,@4,@5)",
-                [
-                    chiTietHoaDon.MaHoaDon,
-                    chiTietHoaDon.MaSanPhamChiTiet,
-                    chiTietHoaDon.DonGia,
-                    chiTietHoaDon.SoLuong,
-                    chiTietHoaDon.ThanhTien
-                ]
-            );
-            DBUtil.CloseConnection();
+            return DBUtil.ExecuteQueryTable(sql, param);
         }
 
-        public static void CapNhat(ChiTietHoaDon chiTietHoaDon)
+        // ===================== THÊM CHI TIẾT HÓA ĐƠN =====================
+        public static void TaoMoi(ChiTietHoaDon ct)
         {
-            DBUtil.OpenConnection();
-            DBUtil.ExecuteNonQuery(
-                "Update Chi_Tiet_Hoa_Don (ma_hd, ma_spct, don_gia, so_luong, thanh_tien) VALUES (@0, @1, @2, @3,@4,@5)",
-                [
-                    chiTietHoaDon.MaHoaDon,
-                    chiTietHoaDon.MaSanPhamChiTiet,
-                    chiTietHoaDon.DonGia,
-                    chiTietHoaDon.SoLuong,
-                    chiTietHoaDon.ThanhTien
-                ]
-            );
-            DBUtil.CloseConnection();
+            string sql = @"
+                INSERT INTO hoa_don_chi_tiet
+                (ma_hd, ma_spct, don_gia, so_luong)
+                VALUES (@ma_hd, @ma_spct, @don_gia, @so_luong)
+            ";
+
+            Dictionary<string, object> param = new()
+            {
+                { "@ma_hd", ct.MaHoaDon },
+                { "@ma_spct", ct.MaSanPhamChiTiet },
+                { "@don_gia", ct.DonGia },
+                { "@so_luong", ct.SoLuong }
+            };
+
+            DBUtil.ExecuteNonQuery(sql, param);
         }
 
-        public static void Xoa(string maHoaDon, string maSanPham)
+        // ===================== SỬA CHI TIẾT HÓA ĐƠN =====================
+        public static void CapNhat(ChiTietHoaDon ct)
         {
-            DBUtil.OpenConnection();
-            DBUtil.ExecuteNonQuery(
-                "DELETE Chi_Tiet_Hoa_Don WHERE ma_hd=@0 AND ma_spct=@1",
-                [
-                    maHoaDon,
-                    maSanPham
-                ]
-            );
-            DBUtil.CloseConnection();
+            string sql = @"
+                UPDATE hoa_don_chi_tiet
+                SET don_gia = @don_gia,
+                    so_luong = @so_luong
+                WHERE ma_hd = @ma_hd
+                  AND ma_spct = @ma_spct
+            ";
+
+            Dictionary<string, object> param = new()
+            {
+                { "@ma_hd", ct.MaHoaDon },
+                { "@ma_spct", ct.MaSanPhamChiTiet },
+                { "@don_gia", ct.DonGia },
+                { "@so_luong", ct.SoLuong }
+            };
+
+            DBUtil.ExecuteNonQuery(sql, param);
+        }
+
+        // ===================== XÓA CHI TIẾT HÓA ĐƠN =====================
+        public static void Xoa(string maHoaDon, string maSpct)
+        {
+            string sql = @"
+                DELETE FROM hoa_don_chi_tiet
+                WHERE ma_hd = @ma_hd
+                  AND ma_spct = @ma_spct
+            ";
+
+            Dictionary<string, object> param = new()
+            {
+                { "@ma_hd", maHoaDon },
+                { "@ma_spct", maSpct }
+            };
+
+            DBUtil.ExecuteNonQuery(sql, param);
         }
     }
 }

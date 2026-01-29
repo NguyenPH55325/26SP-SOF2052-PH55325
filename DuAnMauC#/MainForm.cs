@@ -27,6 +27,7 @@ namespace DuAnMauC_
             dgvDsChiTietHoaDon.Dock = DockStyle.Fill;
 
             SelectAll(); // ✅ GỌI Ở ĐÂY
+            
         }
         public void SelectAll()
         {
@@ -35,8 +36,8 @@ namespace DuAnMauC_
             dgvNhanVien.DataSource = NhanVienDAL.SelectAll();
             dgvKhachHang.DataSource = KhachHangDAL.SelectAll();
 
-            dgvSanPham.DataSource = SanPhamDAL.SelectAll();
-            dgvSanPhamChiTiet.DataSource = SanPhamChiTietDAL.SelectAll();
+        //    dgvSanPham.DataSource = SanPhamDAL.SelectAll();
+         //   dgvSanPhamChiTiet.DataSource = SanPhamChiTietDAL.SelectAll();
 
 
         }
@@ -171,7 +172,7 @@ namespace DuAnMauC_
                     MaSanPhamChiTiet = txtMaSanPham.Text,
                     DonGia = Decimal.Parse(txtDonGia.Text),
                     SoLuong = int.Parse(txtSoLuong.Text),
-                   
+
                 });
             }
         }
@@ -200,7 +201,43 @@ namespace DuAnMauC_
                 ChiTietHoaDonDAL.Xoa(txtMaHoaDon.Text, txtMaSanPham.Text);
             }
         }
-       
+
+
+        private void txtMaSanPham_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtMaSanPham.Text))
+            {
+                txtTenSanPham.Clear();
+                txtDonGia.Clear();
+                txtSoLuong.Clear();
+                txtThanhTien.Clear();
+                return;
+            }
+
+            DataTable dt = SanPhamChiTietDAL.SelectByMaSPCT(txtMaSanPham.Text.Trim());
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                txtTenSanPham.Text = dt.Rows[0]["ten_sp"].ToString();
+                txtDonGia.Text = dt.Rows[0]["don_gia"].ToString();
+                txtSoLuong.Text = "1";
+
+                TinhThanhTien();
+            }
+        }
+        private void txtSoLuong_TextChanged(object sender, EventArgs e)
+        {
+            TinhThanhTien();
+        }
+
+        private void TinhThanhTien()
+        {
+            if (decimal.TryParse(txtDonGia.Text, out decimal donGia) &&
+                int.TryParse(txtSoLuong.Text, out int soLuong))
+            {
+                txtThanhTien.Text = (donGia * soLuong).ToString();
+            }
+        }
     }
 
 }

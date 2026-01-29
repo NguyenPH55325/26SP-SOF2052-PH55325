@@ -1,5 +1,6 @@
 ﻿using DemoDuAnMauCSharp.Utils;
 using DuAnMauC_.DAL;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,5 +19,6 @@ namespace DuAnMauC_.DAL
             DBUtil.CloseConnection();
             return tmp;
         }
+
     }
 }

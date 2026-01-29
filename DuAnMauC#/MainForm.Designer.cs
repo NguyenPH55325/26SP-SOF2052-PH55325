@@ -298,6 +298,7 @@
             txtMaSanPham.Name = "txtMaSanPham";
             txtMaSanPham.Size = new Size(219, 27);
             txtMaSanPham.TabIndex = 1;
+            txtMaSanPham.TextChanged += txtMaSanPham_TextChanged;
             // 
             // label5
             // 

@@ -1,78 +1,102 @@
 ﻿using DemoDuAnMauCSharp.Utils;
 using DuAnMauC_.DAO;
-using System;
+using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DuAnMauC_.DAL
 {
     public static class HoaDonDAL
     {
+        // ===================== LẤY TẤT CẢ HÓA ĐƠN =====================
         public static DataTable SelectAll()
         {
-            DBUtil.OpenConnection();
+            string sql = @"
+                SELECT 
+                    ma_hd AS MaHoaDon,
+                    ngay_tao AS NgayTao,
+                    trang_thai AS TrangThai
+                FROM hoa_don
+            ";
 
-            DataTable dt = DBUtil.ExecuteQueryTable(
-                "SELECT ma_hd, ngay_tao, trang_thai FROM hoa_don",
-                new List<object>()
-            );
-
-            DBUtil.CloseConnection();
-            return dt;
+            return DBUtil.ExecuteQueryTable(sql, new List<SqlParameter>());
         }
+
+        // ===================== TẠO HÓA ĐƠN =====================
         public static void TaoMoi(HoaDon hoaDon)
         {
-            DBUtil.OpenConnection();
-            DBUtil.ExecuteNonQuery(
-                "INSERT INTO Hoa_Don (ma_hd, ngay_tao, trang_thai) VALUES (@0, @1, @2)",
-                [
-                    hoaDon.MaHoaDon,
-                    hoaDon.NgayTao,
-                    hoaDon.TrangThai ? 1 : 0
-                ]
-            );
-            DBUtil.CloseConnection();
+            string sql = @"
+                INSERT INTO hoa_don (ma_hd, ngay_tao, trang_thai)
+                VALUES (@ma_hd, @ngay_tao, @trang_thai)
+            ";
+
+            Dictionary<string, object> param = new()
+            {
+                { "@ma_hd", hoaDon.MaHoaDon },
+                { "@ngay_tao", hoaDon.NgayTao },
+                { "@trang_thai", hoaDon.TrangThai ? 1 : 0 }
+            };
+
+            DBUtil.ExecuteNonQuery(sql, param);
         }
 
+        // ===================== CẬP NHẬT HÓA ĐƠN =====================
         public static void CapNhat(HoaDon hoaDon)
         {
-            DBUtil.OpenConnection();
-            DBUtil.ExecuteNonQuery(
-                "UPDATE Hoa_Don SET ngay_tao=@0, trang_thai=@1 WHERE ma_hd=@2",
-                [
-                    hoaDon.NgayTao,
-                    hoaDon.TrangThai ? 1 : 0,
-                    hoaDon.MaHoaDon
-                ]
-            );
-            DBUtil.CloseConnection();
+            string sql = @"
+                UPDATE hoa_don
+                SET ngay_tao = @ngay_tao,
+                trang_thai = @trang_thai
+                WHERE ma_hd = @ma_hd
+            ";
+
+            Dictionary<string, object> param = new()
+            {
+                { "@ma_hd", hoaDon.MaHoaDon },
+                { "@ngay_tao", hoaDon.NgayTao },
+                { "@trang_thai", hoaDon.TrangThai ? 1 : 0 }
+            };
+
+            DBUtil.ExecuteNonQuery(sql, param);
         }
 
+        // ===================== THANH TOÁN =====================
         public static void ThanhToan(string maHoaDon)
         {
-            DBUtil.OpenConnection();
-            DBUtil.ExecuteNonQuery(
-                "UPDATE Hoa_Don SET trang_thai=1 WHERE ma_hd=@0",
-                [maHoaDon]
-            );
-            DBUtil.CloseConnection();
+            string sql = @"
+                UPDATE hoa_don
+                SET trang_thai = 1
+                WHERE ma_hd = @ma_hd
+            ";
+
+            Dictionary<string, object> param = new()
+            {
+                { "@ma_hd", maHoaDon }
+            };
+
+            DBUtil.ExecuteNonQuery(sql, param);
         }
 
+        // ===================== XÓA HÓA ĐƠN =====================
         public static void Xoa(string maHoaDon)
         {
-            DBUtil.OpenConnection();
-            DBUtil.ExecuteNonQuery(
-                "DELETE Hoa_Don WHERE ma_hd=@0",
-                [maHoaDon]
-            );
-            DBUtil.ExecuteNonQuery(
-                "DELETE Chi_Tiet_Hoa_Don WHERE ma_hd=@0",
-                [maHoaDon]
-            );
-            DBUtil.CloseConnection();
+            string sqlCT = @"
+                DELETE FROM hoa_don_chi_tiet
+                WHERE ma_hd = @ma_hd
+            ";
+
+            string sqlHD = @"
+                DELETE FROM hoa_don
+                WHERE ma_hd = @ma_hd
+            ";
+
+            Dictionary<string, object> param = new()
+            {
+                { "@ma_hd", maHoaDon }
+            };
+
+            DBUtil.ExecuteNonQuery(sqlCT, param);
+            DBUtil.ExecuteNonQuery(sqlHD, param);
         }
     }
 }

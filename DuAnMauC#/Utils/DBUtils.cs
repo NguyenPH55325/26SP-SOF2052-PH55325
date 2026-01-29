@@ -50,47 +50,37 @@ namespace DemoDuAnMauCSharp.Utils
         //    return reader;
         //}
 
-        public static DataTable ExecuteQueryTable(string sql, List<object> parameters)
+        public static DataTable ExecuteQueryTable(string sql, List<SqlParameter> parameters)
         {
-            // 🔥 BẮT BUỘC MỞ KẾT NỐI
             OpenConnection();
 
             SqlCommand command = new(sql, _connection);
 
             if (parameters != null)
             {
-                int i = -1;
-                parameters.ForEach(prm =>
-                {
-                    i++;
-                    command.Parameters.AddWithValue($"@{i}", prm ?? DBNull.Value);
-                });
+                command.Parameters.AddRange(parameters.ToArray());
             }
 
             SqlDataAdapter adapter = new(command);
             DataTable dt = new();
             adapter.Fill(dt);
 
-            // 🔥 ĐÓNG KẾT NỐI (OPTIONAL NHƯNG NÊN)
             CloseConnection();
-
             return dt;
         }
 
-        public static void ExecuteNonQuery(string sql, List<object> parameters)
+        public static void ExecuteNonQuery(string sql, Dictionary<string, object> parameters)
         {
             OpenConnection();
 
-            SqlCommand command = new(sql, _connection);
+            SqlCommand command = new SqlCommand(sql, _connection);
 
             if (parameters != null)
             {
-                int i = -1;
-                parameters.ForEach(prm =>
+                foreach (var prm in parameters)
                 {
-                    i++;
-                    command.Parameters.AddWithValue($"@{i}", prm ?? DBNull.Value);
-                });
+                    command.Parameters.AddWithValue(prm.Key, prm.Value ?? DBNull.Value);
+                }
             }
 
             command.ExecuteNonQuery();
