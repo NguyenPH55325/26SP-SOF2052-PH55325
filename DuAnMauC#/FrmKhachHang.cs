@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace DuAnMauC_
+{
+    public partial class FrmKhachHang : Form
+    {
+        public FrmKhachHang()
+        {
+            InitializeComponent();
+            SelectAll();
+        }
+        public void SelectAll()
+        {
+            dgvDsKhachHang.DataSource = DAL.KhachHangDAL.SelectAll();
+        }
+    }
+}

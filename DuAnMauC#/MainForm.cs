@@ -27,17 +27,17 @@ namespace DuAnMauC_
             dgvDsChiTietHoaDon.Dock = DockStyle.Fill;
 
             SelectAll(); // ✅ GỌI Ở ĐÂY
-            
+
         }
         public void SelectAll()
         {
 
             dgvDsHoaDon.DataSource = HoaDonDAL.SelectAll();
-            dgvNhanVien.DataSource = NhanVienDAL.SelectAll();
-            dgvKhachHang.DataSource = KhachHangDAL.SelectAll();
+            //dgvNhanVien.DataSource = NhanVienDAL.SelectAll();
+            //dgvKhachHang.DataSource = KhachHangDAL.SelectAll();
 
-        //    dgvSanPham.DataSource = SanPhamDAL.SelectAll();
-         //   dgvSanPhamChiTiet.DataSource = SanPhamChiTietDAL.SelectAll();
+            //    dgvSanPham.DataSource = SanPhamDAL.SelectAll();
+            //   dgvSanPhamChiTiet.DataSource = SanPhamChiTietDAL.SelectAll();
 
 
         }
@@ -237,6 +237,29 @@ namespace DuAnMauC_
             {
                 txtThanhTien.Text = (donGia * soLuong).ToString();
             }
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e) //hóa đơn
+        {
+            tabControl1.SelectedIndex = 0;
+        }
+
+        private void NhanVientoolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //FrmNhanVien frm = new FrmNhanVien();
+            //frm.Show(); // hoặc ShowDialog()
+        }
+
+        private void SanPhamToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmSanPham frm = new FrmSanPham();
+            frm.Show();
+        }
+
+        private void KhachHangtoolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //FrmKhachHang frm = new FrmKhachHang();
+            //frm.Show();
         }
     }
 
