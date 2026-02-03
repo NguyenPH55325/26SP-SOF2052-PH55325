@@ -31,20 +31,19 @@
             label17 = new Label();
             groupBox4 = new GroupBox();
             txtTenKH = new TextBox();
-            txtSDTKH = new TextBox();
-            btnXoaKhachHang = new Button();
-            btnSuaKhachHang = new Button();
-            btnThemKhachHang = new Button();
+            txtSDT = new TextBox();
+            btnXoa = new Button();
+            btnSua = new Button();
+            btnThem = new Button();
             label18 = new Label();
-            rdoNuKH = new RadioButton();
-            rdoNamKH = new RadioButton();
             label19 = new Label();
             label21 = new Label();
             label22 = new Label();
             label23 = new Label();
-            txtMaKhachHang = new TextBox();
+            txtMaKH = new TextBox();
             label24 = new Label();
             dgvDsKhachHang = new DataGridView();
+            chkTrangThai = new CheckBox();
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDsKhachHang).BeginInit();
             SuspendLayout();
@@ -62,19 +61,18 @@
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(chkTrangThai);
             groupBox4.Controls.Add(txtTenKH);
-            groupBox4.Controls.Add(txtSDTKH);
-            groupBox4.Controls.Add(btnXoaKhachHang);
-            groupBox4.Controls.Add(btnSuaKhachHang);
-            groupBox4.Controls.Add(btnThemKhachHang);
+            groupBox4.Controls.Add(txtSDT);
+            groupBox4.Controls.Add(btnXoa);
+            groupBox4.Controls.Add(btnSua);
+            groupBox4.Controls.Add(btnThem);
             groupBox4.Controls.Add(label18);
-            groupBox4.Controls.Add(rdoNuKH);
-            groupBox4.Controls.Add(rdoNamKH);
             groupBox4.Controls.Add(label19);
             groupBox4.Controls.Add(label21);
             groupBox4.Controls.Add(label22);
             groupBox4.Controls.Add(label23);
-            groupBox4.Controls.Add(txtMaKhachHang);
+            groupBox4.Controls.Add(txtMaKH);
             groupBox4.Controls.Add(label24);
             groupBox4.Location = new Point(22, 82);
             groupBox4.Name = "groupBox4";
@@ -82,6 +80,7 @@
             groupBox4.TabIndex = 7;
             groupBox4.TabStop = false;
             groupBox4.Text = "Khách Hàng";
+            groupBox4.Enter += groupBox4_Enter;
             // 
             // txtTenKH
             // 
@@ -90,39 +89,42 @@
             txtTenKH.Size = new Size(256, 27);
             txtTenKH.TabIndex = 18;
             // 
-            // txtSDTKH
+            // txtSDT
             // 
-            txtSDTKH.Location = new Point(430, 49);
-            txtSDTKH.Name = "txtSDTKH";
-            txtSDTKH.Size = new Size(256, 27);
-            txtSDTKH.TabIndex = 17;
+            txtSDT.Location = new Point(430, 49);
+            txtSDT.Name = "txtSDT";
+            txtSDT.Size = new Size(256, 27);
+            txtSDT.TabIndex = 17;
             // 
-            // btnXoaKhachHang
+            // btnXoa
             // 
-            btnXoaKhachHang.Location = new Point(249, 167);
-            btnXoaKhachHang.Name = "btnXoaKhachHang";
-            btnXoaKhachHang.Size = new Size(94, 29);
-            btnXoaKhachHang.TabIndex = 16;
-            btnXoaKhachHang.Text = "Xóa";
-            btnXoaKhachHang.UseVisualStyleBackColor = true;
+            btnXoa.Location = new Point(249, 167);
+            btnXoa.Name = "btnXoa";
+            btnXoa.Size = new Size(94, 29);
+            btnXoa.TabIndex = 16;
+            btnXoa.Text = "Xóa";
+            btnXoa.UseVisualStyleBackColor = true;
+            btnXoa.Click += btnXoa_Click;
             // 
-            // btnSuaKhachHang
+            // btnSua
             // 
-            btnSuaKhachHang.Location = new Point(128, 167);
-            btnSuaKhachHang.Name = "btnSuaKhachHang";
-            btnSuaKhachHang.Size = new Size(94, 29);
-            btnSuaKhachHang.TabIndex = 15;
-            btnSuaKhachHang.Text = "Sửa";
-            btnSuaKhachHang.UseVisualStyleBackColor = true;
+            btnSua.Location = new Point(128, 167);
+            btnSua.Name = "btnSua";
+            btnSua.Size = new Size(94, 29);
+            btnSua.TabIndex = 15;
+            btnSua.Text = "Sửa";
+            btnSua.UseVisualStyleBackColor = true;
+            btnSua.Click += btnSua_Click;
             // 
-            // btnThemKhachHang
+            // btnThem
             // 
-            btnThemKhachHang.Location = new Point(11, 167);
-            btnThemKhachHang.Name = "btnThemKhachHang";
-            btnThemKhachHang.Size = new Size(94, 29);
-            btnThemKhachHang.TabIndex = 14;
-            btnThemKhachHang.Text = "Thêm";
-            btnThemKhachHang.UseVisualStyleBackColor = true;
+            btnThem.Location = new Point(11, 167);
+            btnThem.Name = "btnThem";
+            btnThem.Size = new Size(94, 29);
+            btnThem.TabIndex = 14;
+            btnThem.Text = "Thêm";
+            btnThem.UseVisualStyleBackColor = true;
+            btnThem.Click += btnThem_Click;
             // 
             // label18
             // 
@@ -131,28 +133,6 @@
             label18.Name = "label18";
             label18.Size = new Size(0, 20);
             label18.TabIndex = 12;
-            // 
-            // rdoNuKH
-            // 
-            rdoNuKH.AutoSize = true;
-            rdoNuKH.Location = new Point(172, 119);
-            rdoNuKH.Name = "rdoNuKH";
-            rdoNuKH.Size = new Size(50, 24);
-            rdoNuKH.TabIndex = 9;
-            rdoNuKH.TabStop = true;
-            rdoNuKH.Text = "Nữ";
-            rdoNuKH.UseVisualStyleBackColor = true;
-            // 
-            // rdoNamKH
-            // 
-            rdoNamKH.AutoSize = true;
-            rdoNamKH.Location = new Point(95, 119);
-            rdoNamKH.Name = "rdoNamKH";
-            rdoNamKH.Size = new Size(62, 24);
-            rdoNamKH.TabIndex = 8;
-            rdoNamKH.TabStop = true;
-            rdoNamKH.Text = "Nam";
-            rdoNamKH.UseVisualStyleBackColor = true;
             // 
             // label19
             // 
@@ -183,18 +163,18 @@
             // label23
             // 
             label23.AutoSize = true;
-            label23.Location = new Point(11, 119);
+            label23.Location = new Point(0, 122);
             label23.Name = "label23";
-            label23.Size = new Size(68, 20);
+            label23.Size = new Size(78, 20);
             label23.TabIndex = 2;
-            label23.Text = "Giới Tính";
+            label23.Text = "Trạng Thái";
             // 
-            // txtMaKhachHang
+            // txtMaKH
             // 
-            txtMaKhachHang.Location = new Point(76, 49);
-            txtMaKhachHang.Name = "txtMaKhachHang";
-            txtMaKhachHang.Size = new Size(256, 27);
-            txtMaKhachHang.TabIndex = 1;
+            txtMaKH.Location = new Point(76, 49);
+            txtMaKH.Name = "txtMaKH";
+            txtMaKH.Size = new Size(256, 27);
+            txtMaKH.TabIndex = 1;
             // 
             // label24
             // 
@@ -208,11 +188,22 @@
             // dgvDsKhachHang
             // 
             dgvDsKhachHang.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDsKhachHang.Location = new Point(54, 297);
+            dgvDsKhachHang.Location = new Point(22, 297);
             dgvDsKhachHang.Name = "dgvDsKhachHang";
             dgvDsKhachHang.RowHeadersWidth = 51;
-            dgvDsKhachHang.Size = new Size(300, 188);
+            dgvDsKhachHang.Size = new Size(747, 141);
             dgvDsKhachHang.TabIndex = 8;
+            dgvDsKhachHang.CellClick += dgvDsKhachHang_CellClick;
+            // 
+            // chkTrangThai
+            // 
+            chkTrangThai.AutoSize = true;
+            chkTrangThai.Location = new Point(85, 122);
+            chkTrangThai.Name = "chkTrangThai";
+            chkTrangThai.Size = new Size(105, 24);
+            chkTrangThai.TabIndex = 19;
+            chkTrangThai.Text = "Hoạt Động";
+            chkTrangThai.UseVisualStyleBackColor = true;
             // 
             // FrmKhachHang
             // 
@@ -236,19 +227,18 @@
         private Label label17;
         private GroupBox groupBox4;
         private TextBox txtTenKH;
-        private TextBox txtSDTKH;
-        private Button btnXoaKhachHang;
-        private Button btnSuaKhachHang;
-        private Button btnThemKhachHang;
+        private TextBox txtSDT;
+        private Button btnXoa;
+        private Button btnSua;
+        private Button btnThem;
         private Label label18;
-        private RadioButton rdoNuKH;
-        private RadioButton rdoNamKH;
         private Label label19;
         private Label label21;
         private Label label22;
         private Label label23;
-        private TextBox txtMaKhachHang;
+        private TextBox txtMaKH;
         private Label label24;
         private DataGridView dgvDsKhachHang;
+        private CheckBox chkTrangThai;
     }
 }

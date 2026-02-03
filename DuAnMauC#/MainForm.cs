@@ -33,13 +33,7 @@ namespace DuAnMauC_
         {
 
             dgvDsHoaDon.DataSource = HoaDonDAL.SelectAll();
-            //dgvNhanVien.DataSource = NhanVienDAL.SelectAll();
-            //dgvKhachHang.DataSource = KhachHangDAL.SelectAll();
-
-            //    dgvSanPham.DataSource = SanPhamDAL.SelectAll();
-            //   dgvSanPhamChiTiet.DataSource = SanPhamChiTietDAL.SelectAll();
-
-
+         
         }
 
 
@@ -246,8 +240,8 @@ namespace DuAnMauC_
 
         private void NhanVientoolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //FrmNhanVien frm = new FrmNhanVien();
-            //frm.Show(); // hoặc ShowDialog()
+            FrmNhanVien frm = new FrmNhanVien();
+            frm.Show(); // hoặc ShowDialog()
         }
 
         private void SanPhamToolStripMenuItem_Click(object sender, EventArgs e)
@@ -258,8 +252,14 @@ namespace DuAnMauC_
 
         private void KhachHangtoolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //FrmKhachHang frm = new FrmKhachHang();
-            //frm.Show();
+            FrmKhachHang frm = new FrmKhachHang();
+            frm.Show();
+        }
+
+        private void sảnPhẩmChiTiếtToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmSanPhamChiTiet frm = new FrmSanPhamChiTiet();
+            frm.Show();
         }
     }
 

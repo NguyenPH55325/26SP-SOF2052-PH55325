@@ -36,56 +36,52 @@
             NhanVientoolStripMenuItem = new ToolStripMenuItem();
             KhachHangtoolStripMenuItem = new ToolStripMenuItem();
             SanPhamToolStripMenuItem = new ToolStripMenuItem();
-            tabPage6 = new TabPage();
-            dgvSanPhamChiTiet = new DataGridView();
-            label30 = new Label();
+            sảnPhẩmChiTiếtToolStripMenuItem = new ToolStripMenuItem();
             tabPageHDCT = new TabPage();
             dgvDsChiTietHoaDon = new DataGridView();
             tabPage1 = new TabPage();
-            dgvDsHoaDon = new DataGridView();
-            Column8 = new DataGridViewTextBoxColumn();
-            Column7 = new DataGridViewTextBoxColumn();
-            Column6 = new DataGridViewTextBoxColumn();
-            groupBox1 = new GroupBox();
-            label1 = new Label();
-            txtMaHoaDon = new TextBox();
-            label2 = new Label();
-            txtNgayTao = new TextBox();
-            btnThem = new Button();
-            label8 = new Label();
-            rdoChoXacNhan = new RadioButton();
-            rdoDaThanhToan = new RadioButton();
-            btnXoa = new Button();
-            btnSua = new Button();
-            btnLamMoi = new Button();
-            btnThanhToan = new Button();
-            label3 = new Label();
             groupBox2 = new GroupBox();
-            label5 = new Label();
-            txtMaSanPham = new TextBox();
-            label4 = new Label();
-            txtTenSanPham = new TextBox();
-            label6 = new Label();
-            label7 = new Label();
-            txtDonGia = new TextBox();
-            txtSoLuong = new TextBox();
-            btnThemCT = new Button();
-            btnSuaCT = new Button();
-            btnXoaCT = new Button();
-            label31 = new Label();
             txtThanhTien = new TextBox();
+            label31 = new Label();
+            btnXoaCT = new Button();
+            btnSuaCT = new Button();
+            btnThemCT = new Button();
+            txtSoLuong = new TextBox();
+            txtDonGia = new TextBox();
+            label7 = new Label();
+            label6 = new Label();
+            txtTenSanPham = new TextBox();
+            label4 = new Label();
+            txtMaSanPham = new TextBox();
+            label5 = new Label();
+            label3 = new Label();
+            groupBox1 = new GroupBox();
+            btnThanhToan = new Button();
+            btnLamMoi = new Button();
+            btnSua = new Button();
+            btnXoa = new Button();
+            rdoDaThanhToan = new RadioButton();
+            rdoChoXacNhan = new RadioButton();
+            label8 = new Label();
+            btnThem = new Button();
+            txtNgayTao = new TextBox();
+            label2 = new Label();
+            txtMaHoaDon = new TextBox();
+            label1 = new Label();
+            dgvDsHoaDon = new DataGridView();
+            Column6 = new DataGridViewTextBoxColumn();
+            Column7 = new DataGridViewTextBoxColumn();
+            Column8 = new DataGridViewTextBoxColumn();
             tabControl1 = new TabControl();
             ((System.ComponentModel.ISupportInitialize)chiTietHoaDonBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chiTietHoaDonBindingSource1).BeginInit();
             menuStrip1.SuspendLayout();
-            tabPage6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvSanPhamChiTiet).BeginInit();
             tabPageHDCT.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDsChiTietHoaDon).BeginInit();
             tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvDsHoaDon).BeginInit();
-            groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
+            groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvDsHoaDon).BeginInit();
             tabControl1.SuspendLayout();
             SuspendLayout();
             // 
@@ -101,7 +97,7 @@
             // 
             menuStrip1.BackColor = SystemColors.ActiveCaption;
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, NhanVientoolStripMenuItem, KhachHangtoolStripMenuItem, SanPhamToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, NhanVientoolStripMenuItem, KhachHangtoolStripMenuItem, SanPhamToolStripMenuItem, sảnPhẩmChiTiếtToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(800, 28);
@@ -140,37 +136,13 @@
             SanPhamToolStripMenuItem.Text = "Sản Phẩm";
             SanPhamToolStripMenuItem.Click += SanPhamToolStripMenuItem_Click;
             // 
-            // tabPage6
+            // sảnPhẩmChiTiếtToolStripMenuItem
             // 
-            tabPage6.Controls.Add(label30);
-            tabPage6.Controls.Add(dgvSanPhamChiTiet);
-            tabPage6.Location = new Point(4, 29);
-            tabPage6.Name = "tabPage6";
-            tabPage6.Padding = new Padding(3);
-            tabPage6.Size = new Size(776, 365);
-            tabPage6.TabIndex = 5;
-            tabPage6.Text = "Sản Phẩm Chi Tiết";
-            tabPage6.UseVisualStyleBackColor = true;
-            // 
-            // dgvSanPhamChiTiet
-            // 
-            dgvSanPhamChiTiet.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvSanPhamChiTiet.Location = new Point(1, 291);
-            dgvSanPhamChiTiet.Name = "dgvSanPhamChiTiet";
-            dgvSanPhamChiTiet.RowHeadersWidth = 51;
-            dgvSanPhamChiTiet.Size = new Size(772, 118);
-            dgvSanPhamChiTiet.TabIndex = 1;
-            // 
-            // label30
-            // 
-            label30.AutoSize = true;
-            label30.Font = new Font("Segoe UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label30.ForeColor = SystemColors.HotTrack;
-            label30.Location = new Point(247, 26);
-            label30.Name = "label30";
-            label30.Size = new Size(258, 35);
-            label30.TabIndex = 7;
-            label30.Text = "SẢN PHẨM CHI TIẾT";
+            sảnPhẩmChiTiếtToolStripMenuItem.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            sảnPhẩmChiTiếtToolStripMenuItem.Name = "sảnPhẩmChiTiếtToolStripMenuItem";
+            sảnPhẩmChiTiếtToolStripMenuItem.Size = new Size(149, 24);
+            sảnPhẩmChiTiếtToolStripMenuItem.Text = "Sản Phẩm Chi Tiết";
+            sảnPhẩmChiTiếtToolStripMenuItem.Click += sảnPhẩmChiTiếtToolStripMenuItem_Click;
             // 
             // tabPageHDCT
             // 
@@ -208,185 +180,6 @@
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Hóa Đơn";
             // 
-            // dgvDsHoaDon
-            // 
-            dgvDsHoaDon.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDsHoaDon.Columns.AddRange(new DataGridViewColumn[] { Column6, Column7, Column8 });
-            dgvDsHoaDon.Location = new Point(6, 310);
-            dgvDsHoaDon.Name = "dgvDsHoaDon";
-            dgvDsHoaDon.RowHeadersWidth = 51;
-            dgvDsHoaDon.Size = new Size(767, 102);
-            dgvDsHoaDon.TabIndex = 1;
-            // 
-            // Column8
-            // 
-            Column8.DataPropertyName = "trang_thai";
-            Column8.HeaderText = "Trạng thái";
-            Column8.MinimumWidth = 6;
-            Column8.Name = "Column8";
-            Column8.Width = 125;
-            // 
-            // Column7
-            // 
-            Column7.DataPropertyName = "ngay_tao";
-            Column7.HeaderText = "Ngày Tạo";
-            Column7.MinimumWidth = 6;
-            Column7.Name = "Column7";
-            Column7.Width = 125;
-            // 
-            // Column6
-            // 
-            Column6.DataPropertyName = "ma_hd";
-            Column6.HeaderText = "Mã hóa Đơn";
-            Column6.MinimumWidth = 6;
-            Column6.Name = "Column6";
-            Column6.Width = 125;
-            // 
-            // groupBox1
-            // 
-            groupBox1.Controls.Add(btnThanhToan);
-            groupBox1.Controls.Add(btnLamMoi);
-            groupBox1.Controls.Add(btnSua);
-            groupBox1.Controls.Add(btnXoa);
-            groupBox1.Controls.Add(rdoDaThanhToan);
-            groupBox1.Controls.Add(rdoChoXacNhan);
-            groupBox1.Controls.Add(label8);
-            groupBox1.Controls.Add(btnThem);
-            groupBox1.Controls.Add(txtNgayTao);
-            groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(txtMaHoaDon);
-            groupBox1.Controls.Add(label1);
-            groupBox1.Location = new Point(16, 41);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(365, 226);
-            groupBox1.TabIndex = 2;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Hóa Đơn";
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(6, 41);
-            label1.Name = "label1";
-            label1.Size = new Size(94, 20);
-            label1.TabIndex = 0;
-            label1.Text = "Mã Hóa Đơn";
-            // 
-            // txtMaHoaDon
-            // 
-            txtMaHoaDon.Location = new Point(106, 41);
-            txtMaHoaDon.Name = "txtMaHoaDon";
-            txtMaHoaDon.Size = new Size(227, 27);
-            txtMaHoaDon.TabIndex = 1;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(30, 79);
-            label2.Name = "label2";
-            label2.Size = new Size(70, 20);
-            label2.TabIndex = 2;
-            label2.Text = "Ngày tạo";
-            label2.Click += label2_Click;
-            // 
-            // txtNgayTao
-            // 
-            txtNgayTao.Location = new Point(106, 79);
-            txtNgayTao.Name = "txtNgayTao";
-            txtNgayTao.Size = new Size(227, 27);
-            txtNgayTao.TabIndex = 3;
-            // 
-            // btnThem
-            // 
-            btnThem.Location = new Point(60, 154);
-            btnThem.Name = "btnThem";
-            btnThem.Size = new Size(94, 29);
-            btnThem.TabIndex = 4;
-            btnThem.Text = "Thêm";
-            btnThem.UseVisualStyleBackColor = true;
-            btnThem.Click += btnThem_Click;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Location = new Point(22, 120);
-            label8.Name = "label8";
-            label8.Size = new Size(78, 20);
-            label8.TabIndex = 5;
-            label8.Text = "Trạng Thái";
-            // 
-            // rdoChoXacNhan
-            // 
-            rdoChoXacNhan.AutoSize = true;
-            rdoChoXacNhan.Location = new Point(107, 121);
-            rdoChoXacNhan.Name = "rdoChoXacNhan";
-            rdoChoXacNhan.Size = new Size(123, 24);
-            rdoChoXacNhan.TabIndex = 6;
-            rdoChoXacNhan.TabStop = true;
-            rdoChoXacNhan.Text = "Chờ Xác Nhận";
-            rdoChoXacNhan.UseVisualStyleBackColor = true;
-            // 
-            // rdoDaThanhToan
-            // 
-            rdoDaThanhToan.AutoSize = true;
-            rdoDaThanhToan.Location = new Point(236, 121);
-            rdoDaThanhToan.Name = "rdoDaThanhToan";
-            rdoDaThanhToan.Size = new Size(129, 24);
-            rdoDaThanhToan.TabIndex = 7;
-            rdoDaThanhToan.TabStop = true;
-            rdoDaThanhToan.Text = "Đã Thanh Toán";
-            rdoDaThanhToan.UseVisualStyleBackColor = true;
-            // 
-            // btnXoa
-            // 
-            btnXoa.Location = new Point(265, 151);
-            btnXoa.Name = "btnXoa";
-            btnXoa.Size = new Size(94, 29);
-            btnXoa.TabIndex = 8;
-            btnXoa.Text = "Xóa";
-            btnXoa.UseVisualStyleBackColor = true;
-            btnXoa.Click += btnXoa_Click;
-            // 
-            // btnSua
-            // 
-            btnSua.Location = new Point(160, 151);
-            btnSua.Name = "btnSua";
-            btnSua.Size = new Size(94, 29);
-            btnSua.TabIndex = 9;
-            btnSua.Text = "Sửa ";
-            btnSua.UseVisualStyleBackColor = true;
-            btnSua.Click += btnSua_Click;
-            // 
-            // btnLamMoi
-            // 
-            btnLamMoi.Location = new Point(88, 185);
-            btnLamMoi.Name = "btnLamMoi";
-            btnLamMoi.Size = new Size(94, 29);
-            btnLamMoi.TabIndex = 10;
-            btnLamMoi.Text = "Làm mới";
-            btnLamMoi.UseVisualStyleBackColor = true;
-            btnLamMoi.Click += btnLamMoi_Click_1;
-            // 
-            // btnThanhToan
-            // 
-            btnThanhToan.Location = new Point(197, 186);
-            btnThanhToan.Name = "btnThanhToan";
-            btnThanhToan.Size = new Size(94, 29);
-            btnThanhToan.TabIndex = 11;
-            btnThanhToan.Text = "Thanh Toán";
-            btnThanhToan.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.ForeColor = SystemColors.HotTrack;
-            label3.Location = new Point(275, 3);
-            label3.Name = "label3";
-            label3.Size = new Size(238, 35);
-            label3.TabIndex = 3;
-            label3.Text = "Hóa Đơn Bán Hàng";
-            // 
             // groupBox2
             // 
             groupBox2.Controls.Add(txtThanhTien);
@@ -409,91 +202,22 @@
             groupBox2.TabStop = false;
             groupBox2.Text = "Chi Tiết Hóa Đơn";
             // 
-            // label5
+            // txtThanhTien
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(6, 41);
-            label5.Name = "label5";
-            label5.Size = new Size(99, 20);
-            label5.TabIndex = 0;
-            label5.Text = "Mã Sản Phẩm";
+            txtThanhTien.Location = new Point(116, 186);
+            txtThanhTien.Name = "txtThanhTien";
+            txtThanhTien.ReadOnly = true;
+            txtThanhTien.Size = new Size(125, 27);
+            txtThanhTien.TabIndex = 16;
             // 
-            // txtMaSanPham
+            // label31
             // 
-            txtMaSanPham.Location = new Point(114, 41);
-            txtMaSanPham.Name = "txtMaSanPham";
-            txtMaSanPham.Size = new Size(219, 27);
-            txtMaSanPham.TabIndex = 1;
-            txtMaSanPham.TextChanged += txtMaSanPham_TextChanged;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(6, 79);
-            label4.Name = "label4";
-            label4.Size = new Size(101, 20);
-            label4.TabIndex = 2;
-            label4.Text = "Tên Sản Phẩm";
-            // 
-            // txtTenSanPham
-            // 
-            txtTenSanPham.Location = new Point(114, 79);
-            txtTenSanPham.Name = "txtTenSanPham";
-            txtTenSanPham.Size = new Size(219, 27);
-            txtTenSanPham.TabIndex = 3;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(38, 151);
-            label6.Name = "label6";
-            label6.Size = new Size(72, 20);
-            label6.TabIndex = 4;
-            label6.Text = "Số Lượng";
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new Point(41, 112);
-            label7.Name = "label7";
-            label7.Size = new Size(67, 20);
-            label7.TabIndex = 5;
-            label7.Text = "Đơn Giá ";
-            label7.Click += label7_Click;
-            // 
-            // txtDonGia
-            // 
-            txtDonGia.Location = new Point(114, 112);
-            txtDonGia.Name = "txtDonGia";
-            txtDonGia.Size = new Size(219, 27);
-            txtDonGia.TabIndex = 6;
-            // 
-            // txtSoLuong
-            // 
-            txtSoLuong.Location = new Point(116, 151);
-            txtSoLuong.Name = "txtSoLuong";
-            txtSoLuong.Size = new Size(217, 27);
-            txtSoLuong.TabIndex = 7;
-            // 
-            // btnThemCT
-            // 
-            btnThemCT.Location = new Point(28, 219);
-            btnThemCT.Name = "btnThemCT";
-            btnThemCT.Size = new Size(94, 29);
-            btnThemCT.TabIndex = 12;
-            btnThemCT.Text = "Thêm";
-            btnThemCT.UseVisualStyleBackColor = true;
-            btnThemCT.Click += btnThemCT_Click;
-            // 
-            // btnSuaCT
-            // 
-            btnSuaCT.Location = new Point(139, 219);
-            btnSuaCT.Name = "btnSuaCT";
-            btnSuaCT.Size = new Size(94, 29);
-            btnSuaCT.TabIndex = 13;
-            btnSuaCT.Text = "Sửa";
-            btnSuaCT.UseVisualStyleBackColor = true;
-            btnSuaCT.Click += btnSuaCT_Click;
+            label31.AutoSize = true;
+            label31.Location = new Point(36, 186);
+            label31.Name = "label31";
+            label31.Size = new Size(81, 20);
+            label31.TabIndex = 15;
+            label31.Text = "Thành Tiền";
             // 
             // btnXoaCT
             // 
@@ -505,28 +229,275 @@
             btnXoaCT.UseVisualStyleBackColor = true;
             btnXoaCT.Click += btnXoaCT_Click;
             // 
-            // label31
+            // btnSuaCT
             // 
-            label31.AutoSize = true;
-            label31.Location = new Point(36, 186);
-            label31.Name = "label31";
-            label31.Size = new Size(81, 20);
-            label31.TabIndex = 15;
-            label31.Text = "Thành Tiền";
+            btnSuaCT.Location = new Point(139, 219);
+            btnSuaCT.Name = "btnSuaCT";
+            btnSuaCT.Size = new Size(94, 29);
+            btnSuaCT.TabIndex = 13;
+            btnSuaCT.Text = "Sửa";
+            btnSuaCT.UseVisualStyleBackColor = true;
+            btnSuaCT.Click += btnSuaCT_Click;
             // 
-            // txtThanhTien
+            // btnThemCT
             // 
-            txtThanhTien.Location = new Point(116, 186);
-            txtThanhTien.Name = "txtThanhTien";
-            txtThanhTien.ReadOnly = true;
-            txtThanhTien.Size = new Size(125, 27);
-            txtThanhTien.TabIndex = 16;
+            btnThemCT.Location = new Point(28, 219);
+            btnThemCT.Name = "btnThemCT";
+            btnThemCT.Size = new Size(94, 29);
+            btnThemCT.TabIndex = 12;
+            btnThemCT.Text = "Thêm";
+            btnThemCT.UseVisualStyleBackColor = true;
+            btnThemCT.Click += btnThemCT_Click;
+            // 
+            // txtSoLuong
+            // 
+            txtSoLuong.Location = new Point(116, 151);
+            txtSoLuong.Name = "txtSoLuong";
+            txtSoLuong.Size = new Size(217, 27);
+            txtSoLuong.TabIndex = 7;
+            // 
+            // txtDonGia
+            // 
+            txtDonGia.Location = new Point(114, 112);
+            txtDonGia.Name = "txtDonGia";
+            txtDonGia.Size = new Size(219, 27);
+            txtDonGia.TabIndex = 6;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(41, 112);
+            label7.Name = "label7";
+            label7.Size = new Size(67, 20);
+            label7.TabIndex = 5;
+            label7.Text = "Đơn Giá ";
+            label7.Click += label7_Click;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(38, 151);
+            label6.Name = "label6";
+            label6.Size = new Size(72, 20);
+            label6.TabIndex = 4;
+            label6.Text = "Số Lượng";
+            // 
+            // txtTenSanPham
+            // 
+            txtTenSanPham.Location = new Point(114, 79);
+            txtTenSanPham.Name = "txtTenSanPham";
+            txtTenSanPham.Size = new Size(219, 27);
+            txtTenSanPham.TabIndex = 3;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(6, 79);
+            label4.Name = "label4";
+            label4.Size = new Size(101, 20);
+            label4.TabIndex = 2;
+            label4.Text = "Tên Sản Phẩm";
+            // 
+            // txtMaSanPham
+            // 
+            txtMaSanPham.Location = new Point(114, 41);
+            txtMaSanPham.Name = "txtMaSanPham";
+            txtMaSanPham.Size = new Size(219, 27);
+            txtMaSanPham.TabIndex = 1;
+            txtMaSanPham.TextChanged += txtMaSanPham_TextChanged;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(6, 41);
+            label5.Name = "label5";
+            label5.Size = new Size(99, 20);
+            label5.TabIndex = 0;
+            label5.Text = "Mã Sản Phẩm";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.ForeColor = SystemColors.HotTrack;
+            label3.Location = new Point(275, 3);
+            label3.Name = "label3";
+            label3.Size = new Size(238, 35);
+            label3.TabIndex = 3;
+            label3.Text = "Hóa Đơn Bán Hàng";
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(btnThanhToan);
+            groupBox1.Controls.Add(btnLamMoi);
+            groupBox1.Controls.Add(btnSua);
+            groupBox1.Controls.Add(btnXoa);
+            groupBox1.Controls.Add(rdoDaThanhToan);
+            groupBox1.Controls.Add(rdoChoXacNhan);
+            groupBox1.Controls.Add(label8);
+            groupBox1.Controls.Add(btnThem);
+            groupBox1.Controls.Add(txtNgayTao);
+            groupBox1.Controls.Add(label2);
+            groupBox1.Controls.Add(txtMaHoaDon);
+            groupBox1.Controls.Add(label1);
+            groupBox1.Location = new Point(16, 41);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(365, 226);
+            groupBox1.TabIndex = 2;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Hóa Đơn";
+            // 
+            // btnThanhToan
+            // 
+            btnThanhToan.Location = new Point(197, 186);
+            btnThanhToan.Name = "btnThanhToan";
+            btnThanhToan.Size = new Size(94, 29);
+            btnThanhToan.TabIndex = 11;
+            btnThanhToan.Text = "Thanh Toán";
+            btnThanhToan.UseVisualStyleBackColor = true;
+            // 
+            // btnLamMoi
+            // 
+            btnLamMoi.Location = new Point(88, 185);
+            btnLamMoi.Name = "btnLamMoi";
+            btnLamMoi.Size = new Size(94, 29);
+            btnLamMoi.TabIndex = 10;
+            btnLamMoi.Text = "Làm mới";
+            btnLamMoi.UseVisualStyleBackColor = true;
+            btnLamMoi.Click += btnLamMoi_Click_1;
+            // 
+            // btnSua
+            // 
+            btnSua.Location = new Point(160, 151);
+            btnSua.Name = "btnSua";
+            btnSua.Size = new Size(94, 29);
+            btnSua.TabIndex = 9;
+            btnSua.Text = "Sửa ";
+            btnSua.UseVisualStyleBackColor = true;
+            btnSua.Click += btnSua_Click;
+            // 
+            // btnXoa
+            // 
+            btnXoa.Location = new Point(265, 151);
+            btnXoa.Name = "btnXoa";
+            btnXoa.Size = new Size(94, 29);
+            btnXoa.TabIndex = 8;
+            btnXoa.Text = "Xóa";
+            btnXoa.UseVisualStyleBackColor = true;
+            btnXoa.Click += btnXoa_Click;
+            // 
+            // rdoDaThanhToan
+            // 
+            rdoDaThanhToan.AutoSize = true;
+            rdoDaThanhToan.Location = new Point(236, 121);
+            rdoDaThanhToan.Name = "rdoDaThanhToan";
+            rdoDaThanhToan.Size = new Size(129, 24);
+            rdoDaThanhToan.TabIndex = 7;
+            rdoDaThanhToan.TabStop = true;
+            rdoDaThanhToan.Text = "Đã Thanh Toán";
+            rdoDaThanhToan.UseVisualStyleBackColor = true;
+            // 
+            // rdoChoXacNhan
+            // 
+            rdoChoXacNhan.AutoSize = true;
+            rdoChoXacNhan.Location = new Point(107, 121);
+            rdoChoXacNhan.Name = "rdoChoXacNhan";
+            rdoChoXacNhan.Size = new Size(123, 24);
+            rdoChoXacNhan.TabIndex = 6;
+            rdoChoXacNhan.TabStop = true;
+            rdoChoXacNhan.Text = "Chờ Xác Nhận";
+            rdoChoXacNhan.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(22, 120);
+            label8.Name = "label8";
+            label8.Size = new Size(78, 20);
+            label8.TabIndex = 5;
+            label8.Text = "Trạng Thái";
+            // 
+            // btnThem
+            // 
+            btnThem.Location = new Point(60, 154);
+            btnThem.Name = "btnThem";
+            btnThem.Size = new Size(94, 29);
+            btnThem.TabIndex = 4;
+            btnThem.Text = "Thêm";
+            btnThem.UseVisualStyleBackColor = true;
+            btnThem.Click += btnThem_Click;
+            // 
+            // txtNgayTao
+            // 
+            txtNgayTao.Location = new Point(106, 79);
+            txtNgayTao.Name = "txtNgayTao";
+            txtNgayTao.Size = new Size(227, 27);
+            txtNgayTao.TabIndex = 3;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(30, 79);
+            label2.Name = "label2";
+            label2.Size = new Size(70, 20);
+            label2.TabIndex = 2;
+            label2.Text = "Ngày tạo";
+            label2.Click += label2_Click;
+            // 
+            // txtMaHoaDon
+            // 
+            txtMaHoaDon.Location = new Point(106, 41);
+            txtMaHoaDon.Name = "txtMaHoaDon";
+            txtMaHoaDon.Size = new Size(227, 27);
+            txtMaHoaDon.TabIndex = 1;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(6, 41);
+            label1.Name = "label1";
+            label1.Size = new Size(94, 20);
+            label1.TabIndex = 0;
+            label1.Text = "Mã Hóa Đơn";
+            // 
+            // dgvDsHoaDon
+            // 
+            dgvDsHoaDon.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDsHoaDon.Columns.AddRange(new DataGridViewColumn[] { Column6, Column7, Column8 });
+            dgvDsHoaDon.Location = new Point(6, 310);
+            dgvDsHoaDon.Name = "dgvDsHoaDon";
+            dgvDsHoaDon.RowHeadersWidth = 51;
+            dgvDsHoaDon.Size = new Size(767, 102);
+            dgvDsHoaDon.TabIndex = 1;
+            // 
+            // Column6
+            // 
+            Column6.DataPropertyName = "ma_hd";
+            Column6.HeaderText = "Mã hóa Đơn";
+            Column6.MinimumWidth = 6;
+            Column6.Name = "Column6";
+            Column6.Width = 125;
+            // 
+            // Column7
+            // 
+            Column7.DataPropertyName = "ngay_tao";
+            Column7.HeaderText = "Ngày Tạo";
+            Column7.MinimumWidth = 6;
+            Column7.Name = "Column7";
+            Column7.Width = 125;
+            // 
+            // Column8
+            // 
+            Column8.DataPropertyName = "trang_thai";
+            Column8.HeaderText = "Trạng thái";
+            Column8.MinimumWidth = 6;
+            Column8.Name = "Column8";
+            Column8.Width = 125;
             // 
             // tabControl1
             // 
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPageHDCT);
-            tabControl1.Controls.Add(tabPage6);
             tabControl1.Location = new Point(12, 31);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
@@ -548,18 +519,15 @@
             ((System.ComponentModel.ISupportInitialize)chiTietHoaDonBindingSource1).EndInit();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            tabPage6.ResumeLayout(false);
-            tabPage6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvSanPhamChiTiet).EndInit();
             tabPageHDCT.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvDsChiTietHoaDon).EndInit();
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvDsHoaDon).EndInit();
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvDsHoaDon).EndInit();
             tabControl1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
@@ -576,9 +544,6 @@
         private ToolStripMenuItem NhanVientoolStripMenuItem;
         private ToolStripMenuItem KhachHangtoolStripMenuItem;
         private ToolStripMenuItem SanPhamToolStripMenuItem;
-        private TabPage tabPage6;
-        private Label label30;
-        private DataGridView dgvSanPhamChiTiet;
         private TabPage tabPageHDCT;
         private DataGridView dgvDsChiTietHoaDon;
         private TabPage tabPage1;
@@ -615,5 +580,6 @@
         private DataGridViewTextBoxColumn Column7;
         private DataGridViewTextBoxColumn Column8;
         private TabControl tabControl1;
+        private ToolStripMenuItem sảnPhẩmChiTiếtToolStripMenuItem;
     }
 }

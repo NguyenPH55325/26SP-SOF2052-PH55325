@@ -35,13 +35,13 @@
             label3 = new Label();
             txtMaSanPham = new TextBox();
             txtThuongHieu = new TextBox();
-            txtTrangThai = new TextBox();
             txtTenSanPham = new TextBox();
             btnThemSanPham = new Button();
-            button1 = new Button();
-            button2 = new Button();
+            btnXoaSanPham = new Button();
+            btnSuaSanPham = new Button();
             dgvDsSanPham = new DataGridView();
             groupBox1 = new GroupBox();
+            chkTrangThai = new CheckBox();
             groupBox2 = new GroupBox();
             label4 = new Label();
             textBox1 = new TextBox();
@@ -54,9 +54,11 @@
             textBox2 = new TextBox();
             textBox3 = new TextBox();
             textBox4 = new TextBox();
+            dgvDsSanPhamChiTiet = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)dgvDsSanPham).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvDsSanPhamChiTiet).BeginInit();
             SuspendLayout();
             // 
             // label26
@@ -121,13 +123,6 @@
             txtThuongHieu.Size = new Size(243, 27);
             txtThuongHieu.TabIndex = 15;
             // 
-            // txtTrangThai
-            // 
-            txtTrangThai.Location = new Point(141, 146);
-            txtTrangThai.Name = "txtTrangThai";
-            txtTrangThai.Size = new Size(243, 27);
-            txtTrangThai.TabIndex = 16;
-            // 
             // txtTenSanPham
             // 
             txtTenSanPham.Location = new Point(141, 76);
@@ -143,24 +138,27 @@
             btnThemSanPham.TabIndex = 18;
             btnThemSanPham.Text = "Thêm";
             btnThemSanPham.UseVisualStyleBackColor = true;
+            btnThemSanPham.Click += btnThemSanPham_Click;
             // 
-            // button1
+            // btnXoaSanPham
             // 
-            button1.Location = new Point(290, 188);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 19;
-            button1.Text = "Xóa";
-            button1.UseVisualStyleBackColor = true;
+            btnXoaSanPham.Location = new Point(290, 188);
+            btnXoaSanPham.Name = "btnXoaSanPham";
+            btnXoaSanPham.Size = new Size(94, 29);
+            btnXoaSanPham.TabIndex = 19;
+            btnXoaSanPham.Text = "Xóa";
+            btnXoaSanPham.UseVisualStyleBackColor = true;
+            btnXoaSanPham.Click += btnXoaSanPham_Click;
             // 
-            // button2
+            // btnSuaSanPham
             // 
-            button2.Location = new Point(167, 188);
-            button2.Name = "button2";
-            button2.Size = new Size(94, 29);
-            button2.TabIndex = 20;
-            button2.Text = "Sửa";
-            button2.UseVisualStyleBackColor = true;
+            btnSuaSanPham.Location = new Point(167, 188);
+            btnSuaSanPham.Name = "btnSuaSanPham";
+            btnSuaSanPham.Size = new Size(94, 29);
+            btnSuaSanPham.TabIndex = 20;
+            btnSuaSanPham.Text = "Sửa";
+            btnSuaSanPham.UseVisualStyleBackColor = true;
+            btnSuaSanPham.Click += btnSuaSanPham_Click;
             // 
             // dgvDsSanPham
             // 
@@ -168,20 +166,20 @@
             dgvDsSanPham.Location = new Point(12, 342);
             dgvDsSanPham.Name = "dgvDsSanPham";
             dgvDsSanPham.RowHeadersWidth = 51;
-            dgvDsSanPham.Size = new Size(570, 138);
+            dgvDsSanPham.Size = new Size(412, 138);
             dgvDsSanPham.TabIndex = 21;
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(chkTrangThai);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(txtMaSanPham);
-            groupBox1.Controls.Add(button1);
-            groupBox1.Controls.Add(button2);
+            groupBox1.Controls.Add(btnXoaSanPham);
+            groupBox1.Controls.Add(btnSuaSanPham);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(label28);
             groupBox1.Controls.Add(btnThemSanPham);
             groupBox1.Controls.Add(label3);
-            groupBox1.Controls.Add(txtTrangThai);
             groupBox1.Controls.Add(txtTenSanPham);
             groupBox1.Controls.Add(txtThuongHieu);
             groupBox1.Location = new Point(12, 109);
@@ -191,6 +189,16 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Sản Phẩm";
             groupBox1.Enter += groupBox1_Enter;
+            // 
+            // chkTrangThai
+            // 
+            chkTrangThai.AutoSize = true;
+            chkTrangThai.Location = new Point(141, 149);
+            chkTrangThai.Name = "chkTrangThai";
+            chkTrangThai.Size = new Size(105, 24);
+            chkTrangThai.TabIndex = 21;
+            chkTrangThai.Text = "Hoạt Động";
+            chkTrangThai.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -303,11 +311,21 @@
             textBox4.Size = new Size(243, 27);
             textBox4.TabIndex = 15;
             // 
+            // dgvDsSanPhamChiTiet
+            // 
+            dgvDsSanPhamChiTiet.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDsSanPhamChiTiet.Location = new Point(468, 342);
+            dgvDsSanPhamChiTiet.Name = "dgvDsSanPhamChiTiet";
+            dgvDsSanPhamChiTiet.RowHeadersWidth = 51;
+            dgvDsSanPhamChiTiet.Size = new Size(412, 138);
+            dgvDsSanPhamChiTiet.TabIndex = 24;
+            // 
             // FrmSanPham
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(955, 615);
+            Controls.Add(dgvDsSanPhamChiTiet);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(dgvDsSanPham);
@@ -319,6 +337,7 @@
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvDsSanPhamChiTiet).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -332,11 +351,10 @@
         private Label label3;
         private TextBox txtMaSanPham;
         private TextBox txtThuongHieu;
-        private TextBox txtTrangThai;
         private TextBox txtTenSanPham;
         private Button btnThemSanPham;
-        private Button button1;
-        private Button button2;
+        private Button btnXoaSanPham;
+        private Button btnSuaSanPham;
         private DataGridView dgvDsSanPham;
         private GroupBox groupBox1;
         private GroupBox groupBox2;
@@ -351,5 +369,7 @@
         private TextBox textBox2;
         private TextBox textBox3;
         private TextBox textBox4;
+        private CheckBox chkTrangThai;
+        private DataGridView dgvDsSanPhamChiTiet;
     }
 }
