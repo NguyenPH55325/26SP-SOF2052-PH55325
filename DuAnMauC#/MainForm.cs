@@ -67,46 +67,93 @@ namespace DuAnMauC_
 
             rdoDaThanhToan.Checked = hoaDon.TrangThai;
             rdoChoXacNhan.Checked = !hoaDon.TrangThai;
+
+            // vô hiệu hóa nút thêm, sửa, xóa chi tiết hóa đơn nếu đã thanh toán
+            bool daThanhToan = hoaDon.TrangThai;
+
+            btnThemCT.Enabled = !daThanhToan;
+            btnSuaCT.Enabled = !daThanhToan;
+            btnXoaCT.Enabled = !daThanhToan;
+
+            //txtMaSanPham.Enabled = !daThanhToan;
+            txtSoLuong.Enabled = !daThanhToan;
         }
 
         private void btnThanhToan_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show(this, "Xác nhận khách hàng đã thanh toán đầy đủ", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.OK)
+            DialogResult dialogResult = MessageBox.Show(this,
+                "Xác nhận khách hàng đã thanh toán đầy đủ",
+                "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+            if (dialogResult != DialogResult.OK) return;
+
+            string maHD = txtMaHoaDon.Text.Trim();
+            if (string.IsNullOrWhiteSpace(maHD)) return;
+
+            DataTable ct = ChiTietHoaDonDAL.SelectAll(maHD);
+            if (ct == null || ct.Rows.Count == 0)
             {
-                HoaDonDAL.ThanhToan(txtMaHoaDon.Text);
+                MessageBox.Show("Hóa đơn chưa có sản phẩm!");
+                return;
             }
+
+            // 1) check tồn lần cuối
+            foreach (DataRow r in ct.Rows)
+            {
+                string maSpct = r["MaSanPhamChiTiet"].ToString(); // nếu DAL ct alias khác thì sửa đúng tên cột
+                int sl = Convert.ToInt32(r["SoLuong"]);
+
+                var dtSp = SanPhamChiTietDAL.SelectByMaSPCT(maSpct);
+                int ton = int.Parse(dtSp.Rows[0]["SoLuongTon"].ToString());
+
+                if (ton < sl)
+                {
+                    MessageBox.Show($"SPCT {maSpct} không đủ tồn kho để thanh toán!");
+                    return;
+                }
+            }
+
+            // 2) trừ tồn
+            foreach (DataRow r in ct.Rows)
+            {
+                string maSpct = r["MaSanPhamChiTiet"].ToString();
+                int sl = Convert.ToInt32(r["SoLuong"]);
+
+                SanPhamChiTietDAL.TruTon(maSpct, sl); // hàm update so_luong = so_luong - sl
+            }
+
+            // 3) chốt hóa đơn
+            HoaDonDAL.ThanhToan(maHD);
+
+            MessageBox.Show("Thanh toán thành công ✅");
+            SelectAll();
         }
+    
         private void btnThem_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show(this, "Tạo hóa đơn mới", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.OK)
+            DialogResult dialogResult = MessageBox.Show(this, "Tạo hóa đơn mới", "Xác nhận",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+            if (dialogResult != DialogResult.OK) return;
+
+            string maHD = "" + DateTime.Now.ToString("yyyyMMddHHmmss");
+            DateTime ngayTao = DateTime.Now;
+
+            HoaDonDAL.TaoMoi(new HoaDon()
             {
-                HoaDonDAL.TaoMoi(new HoaDon()
-                {
-                    MaHoaDon = txtMaHoaDon.Text,
-                    NgayTao = DateTime.ParseExact(txtNgayTao.Text, "yyyy-MM-dd", null),
-                    TrangThai = rdoDaThanhToan.Checked
-                });
-            }
+                MaHoaDon = maHD,
+                NgayTao = ngayTao,
+                TrangThai = false // mặc định chờ xác nhận
+            });
+
+            // set UI
+            txtMaHoaDon.Text = maHD;
+            txtNgayTao.Text = ngayTao.ToString("yyyy-MM-dd");
+            rdoChoXacNhan.Checked = true;
+
+            SelectAll(); // load lại danh sách hóa đơn
         }
 
-
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-            // ấn nhầm
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void label15_Click(object sender, EventArgs e)
         {
@@ -126,11 +173,6 @@ namespace DuAnMauC_
         private void btnLamMoi_Click(object sender, EventArgs e)
         {
             SelectAll();
-        }
-
-        private void btnLamMoi_Click_1(object sender, EventArgs e)
-        {
-
         }
 
         private void btnSua_Click(object sender, EventArgs e)
@@ -157,20 +199,60 @@ namespace DuAnMauC_
         }
         private void btnThemCT_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show(this, "Thêm chi tiết hóa đơn", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.OK)
+            if (rdoDaThanhToan.Checked)
             {
-                ChiTietHoaDonDAL.TaoMoi(new ChiTietHoaDon()
-                {
-                    MaHoaDon = txtMaHoaDon.Text,
-                    MaSanPhamChiTiet = txtMaSanPham.Text,
-                    DonGia = Decimal.Parse(txtDonGia.Text),
-                    SoLuong = int.Parse(txtSoLuong.Text),
-
-                });
+                MessageBox.Show("Hóa đơn đã thanh toán, không thể thêm sản phẩm.");
+                return;
             }
-        }
+            DialogResult dialogResult = MessageBox.Show(this, "Thêm chi tiết hóa đơn", "Xác nhận",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
+            if (dialogResult != DialogResult.OK) return;
+
+            string maHD = txtMaHoaDon.Text.Trim();
+            string maSpct = txtMaSanPham.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(maHD))
+            {
+                MessageBox.Show("Tạo hóa đơn trước đã!");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(maSpct))
+            {
+                MessageBox.Show("Nhập mã SPCT!");
+                return;
+            }
+
+            if (!int.TryParse(txtSoLuong.Text, out int sl) || sl <= 0)
+            {
+                MessageBox.Show("Số lượng không hợp lệ!");
+                return;
+            }
+
+            var dt = SanPhamChiTietDAL.SelectByMaSPCT(maSpct);
+            if (dt.Rows.Count == 0)
+            {
+                MessageBox.Show("Không tìm thấy SPCT!");
+                return;
+            }
+
+            int ton = int.Parse(dt.Rows[0]["SoLuongTon"].ToString());
+            if (ton < sl)
+            {
+                MessageBox.Show("Không đủ tồn kho!");
+                return;
+            }
+
+            ChiTietHoaDonDAL.AddOrUpdate(new ChiTietHoaDon()
+            {
+                MaHoaDon = txtMaHoaDon.Text.Trim(),
+                MaSanPhamChiTiet = txtMaSanPham.Text.Trim(),
+                DonGia = decimal.Parse(txtDonGia.Text),
+                SoLuong = int.Parse(txtSoLuong.Text),
+            });
+
+            dgvDsChiTietHoaDon.DataSource = ChiTietHoaDonDAL.SelectAll(maHD);
+        }
 
         private void btnSuaCT_Click(object sender, EventArgs e)
         {
@@ -187,14 +269,62 @@ namespace DuAnMauC_
             }
         }
 
+        //private void btnXoaCT_Click(object sender, EventArgs e)
+        //{
+        //    DialogResult dialogResult = MessageBox.Show(this, "Xóa chi tiết hóa đơn", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+        //    if (dialogResult == DialogResult.OK)
+        //    {
+        //        ChiTietHoaDonDAL.Xoa(txtMaHoaDon.Text, txtMaSanPham.Text);
+        //    }
+        //}
         private void btnXoaCT_Click(object sender, EventArgs e)
-        {
-            DialogResult dialogResult = MessageBox.Show(this, "Xóa chi tiết hóa đơn", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.OK)
-            {
-                ChiTietHoaDonDAL.Xoa(txtMaHoaDon.Text, txtMaSanPham.Text);
-            }
-        }
+{
+    // 1) chặn nếu đã thanh toán
+    if (rdoDaThanhToan.Checked)
+    {
+        MessageBox.Show("Hóa đơn đã thanh toán, không thể xóa chi tiết.");
+        return;
+    }
+
+    string maHD = txtMaHoaDon.Text.Trim();
+    string maSpct = txtMaSanPham.Text.Trim();
+
+    // 2) validate
+    if (string.IsNullOrWhiteSpace(maHD) || string.IsNullOrWhiteSpace(maSpct))
+    {
+        MessageBox.Show("Vui lòng chọn hóa đơn và sản phẩm chi tiết cần xóa.");
+        return;
+    }
+
+    // 3) confirm
+    var dialogResult = MessageBox.Show(
+        "Xóa chi tiết hóa đơn này?",
+        "Xác nhận",
+        MessageBoxButtons.OKCancel,
+        MessageBoxIcon.Question);
+
+    if (dialogResult != DialogResult.OK) return;
+
+    try
+    {
+        ChiTietHoaDonDAL.Xoa(maHD, maSpct);
+
+        // reload grid chi tiết
+        dgvDsChiTietHoaDon.DataSource = ChiTietHoaDonDAL.SelectAll(maHD);
+
+        // clear form chi tiết
+        txtMaSanPham.Clear();
+        txtTenSanPham.Clear();
+        txtDonGia.Clear();
+        txtSoLuong.Clear();
+        txtThanhTien.Clear();
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show("Lỗi xóa chi tiết: " + ex.Message);
+    }
+}
+
 
 
         private void txtMaSanPham_TextChanged(object sender, EventArgs e)
@@ -212,8 +342,8 @@ namespace DuAnMauC_
 
             if (dt != null && dt.Rows.Count > 0)
             {
-                txtTenSanPham.Text = dt.Rows[0]["ten_sp"].ToString();
-                txtDonGia.Text = dt.Rows[0]["don_gia"].ToString();
+                txtTenSanPham.Text = dt.Rows[0]["TenSanPham"].ToString();
+                txtDonGia.Text = dt.Rows[0]["DonGia"].ToString();
                 txtSoLuong.Text = "1";
 
                 TinhThanhTien();

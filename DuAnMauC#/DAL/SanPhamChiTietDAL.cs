@@ -26,9 +26,9 @@ namespace DuAnMauC_.DAL
                     ct.ma_spct   AS MaSPCT,
                     ct.ma_sp     AS MaSP,
                     sp.ten_sp    AS TenSanPham,
-                    ct.ma_mau    AS MaMau,
+                 
                     ms.ten_mau   AS TenMau,
-                    ct.ma_size   AS MaSize,
+                 
                     sz.ten_size  AS TenSize,
                     ct.don_gia   AS DonGia,
                     ct.so_luong  AS SoLuong,
@@ -46,19 +46,24 @@ namespace DuAnMauC_.DAL
         public static DataTable SelectByMaSPCT(string maSpct)
         {
             string sql = @"
-                SELECT sp.ten_sp, ct.don_gia
-                FROM san_pham_chi_tiet ct
-                JOIN san_pham sp ON ct.ma_sp = sp.ma_sp
-                WHERE ct.ma_spct = @ma_spct
-            ";
+        SELECT 
+            ct.ma_spct AS MaSPCT,
+            sp.ten_sp  AS TenSanPham,
+            ct.don_gia AS DonGia,
+            ct.so_luong AS SoLuongTon
+        FROM san_pham_chi_tiet ct
+        JOIN san_pham sp ON ct.ma_sp = sp.ma_sp
+        WHERE ct.ma_spct = @ma_spct
+    ";
 
             List<SqlParameter> param = new()
-            {
-                new SqlParameter("@ma_spct", maSpct)
-            };
+    {
+        new SqlParameter("@ma_spct", maSpct)
+    };
 
             return DBUtil.ExecuteQueryTable(sql, param);
         }
+
         public static DataTable SelectByMaSP(string maSp)
         {
             string sql = @"
@@ -179,18 +184,36 @@ namespace DuAnMauC_.DAL
             DBUtil.ExecuteNonQuery(sql, param);
         }
 
-        // ===================== DELETE: XÓA SPCT =====================
-        public static void Xoa(string maSpct)
+        public static void TruTon(string maSpct, int sl)
         {
             string sql = @"
-                DELETE FROM san_pham_chi_tiet
-                WHERE ma_spct = @ma_spct
-            ";
+        UPDATE san_pham_chi_tiet
+        SET so_luong = so_luong - @sl
+        WHERE ma_spct = @ma_spct
+    ";
 
             Dictionary<string, object> param = new()
-            {
-                { "@ma_spct", maSpct }
-            };
+    {
+        {"@ma_spct", maSpct},
+        {"@sl", sl}
+    };
+
+            DBUtil.ExecuteNonQuery(sql, param);
+        }
+
+        // ===================== DELETE: XÓA SPCT =====================
+        public static void XoaMem(string maSpct)
+        {
+            string sql = @"
+        UPDATE san_pham_chi_tiet
+        SET trang_thai = 0
+        WHERE ma_spct = @ma_spct
+    ";
+
+            Dictionary<string, object> param = new()
+    {
+        { "@ma_spct", maSpct }
+    };
 
             DBUtil.ExecuteNonQuery(sql, param);
         }
@@ -212,6 +235,24 @@ namespace DuAnMauC_.DAL
             };
 
             return DBUtil.ExecuteQueryTable(sql, param);
+        }
+        // ===================== AUTO ID: SPCT001... =====================
+        public static string TaoMaTuDong()
+        {
+            string sql = @"
+        SELECT MAX(CAST(SUBSTRING(ma_spct, 5, 10) AS INT)) AS MaxSo
+        FROM san_pham_chi_tiet
+        WHERE ma_spct LIKE 'SPCT%'
+    ";
+
+            DataTable dt = DBUtil.ExecuteQueryTable(sql, new List<SqlParameter>());
+
+            int max = 0;
+            if (dt.Rows.Count > 0 && dt.Rows[0]["MaxSo"] != DBNull.Value)
+                max = Convert.ToInt32(dt.Rows[0]["MaxSo"]);
+
+            int next = max + 1;
+            return "SPCT" + next.ToString("D3");
         }
 
     }

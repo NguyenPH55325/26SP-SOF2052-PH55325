@@ -98,7 +98,6 @@
             label2.Size = new Size(99, 20);
             label2.TabIndex = 12;
             label2.Text = "Mã Sản Phẩm";
-            label2.Click += label2_Click;
             // 
             // label3
             // 
@@ -188,7 +187,6 @@
             groupBox1.TabIndex = 22;
             groupBox1.TabStop = false;
             groupBox1.Text = "Sản Phẩm";
-            groupBox1.Enter += groupBox1_Enter;
             // 
             // chkTrangThai
             // 

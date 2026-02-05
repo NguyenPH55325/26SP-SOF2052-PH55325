@@ -69,9 +69,6 @@
             txtMaHoaDon = new TextBox();
             label1 = new Label();
             dgvDsHoaDon = new DataGridView();
-            Column6 = new DataGridViewTextBoxColumn();
-            Column7 = new DataGridViewTextBoxColumn();
-            Column8 = new DataGridViewTextBoxColumn();
             tabControl1 = new TabControl();
             ((System.ComponentModel.ISupportInitialize)chiTietHoaDonBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chiTietHoaDonBindingSource1).BeginInit();
@@ -100,7 +97,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1, NhanVientoolStripMenuItem, KhachHangtoolStripMenuItem, SanPhamToolStripMenuItem, sảnPhẩmChiTiếtToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(800, 28);
+            menuStrip1.Size = new Size(941, 28);
             menuStrip1.TabIndex = 2;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -150,7 +147,7 @@
             tabPageHDCT.Location = new Point(4, 29);
             tabPageHDCT.Name = "tabPageHDCT";
             tabPageHDCT.Padding = new Padding(3);
-            tabPageHDCT.Size = new Size(776, 365);
+            tabPageHDCT.Size = new Size(776, 489);
             tabPageHDCT.TabIndex = 1;
             tabPageHDCT.Text = "Hóa Đơn Chi Tiết";
             tabPageHDCT.UseVisualStyleBackColor = true;
@@ -176,7 +173,7 @@
             tabPage1.Location = new Point(4, 29);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(776, 365);
+            tabPage1.Size = new Size(776, 489);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Hóa Đơn";
             // 
@@ -271,7 +268,6 @@
             label7.Size = new Size(67, 20);
             label7.TabIndex = 5;
             label7.Text = "Đơn Giá ";
-            label7.Click += label7_Click;
             // 
             // label6
             // 
@@ -355,6 +351,7 @@
             btnThanhToan.TabIndex = 11;
             btnThanhToan.Text = "Thanh Toán";
             btnThanhToan.UseVisualStyleBackColor = true;
+            btnThanhToan.Click += btnThanhToan_Click;
             // 
             // btnLamMoi
             // 
@@ -364,7 +361,7 @@
             btnLamMoi.TabIndex = 10;
             btnLamMoi.Text = "Làm mới";
             btnLamMoi.UseVisualStyleBackColor = true;
-            btnLamMoi.Click += btnLamMoi_Click_1;
+            btnLamMoi.Click += btnLamMoi_Click;
             // 
             // btnSua
             // 
@@ -442,7 +439,6 @@
             label2.Size = new Size(70, 20);
             label2.TabIndex = 2;
             label2.Text = "Ngày tạo";
-            label2.Click += label2_Click;
             // 
             // txtMaHoaDon
             // 
@@ -463,36 +459,11 @@
             // dgvDsHoaDon
             // 
             dgvDsHoaDon.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDsHoaDon.Columns.AddRange(new DataGridViewColumn[] { Column6, Column7, Column8 });
             dgvDsHoaDon.Location = new Point(6, 310);
             dgvDsHoaDon.Name = "dgvDsHoaDon";
             dgvDsHoaDon.RowHeadersWidth = 51;
-            dgvDsHoaDon.Size = new Size(767, 102);
+            dgvDsHoaDon.Size = new Size(767, 151);
             dgvDsHoaDon.TabIndex = 1;
-            // 
-            // Column6
-            // 
-            Column6.DataPropertyName = "ma_hd";
-            Column6.HeaderText = "Mã hóa Đơn";
-            Column6.MinimumWidth = 6;
-            Column6.Name = "Column6";
-            Column6.Width = 125;
-            // 
-            // Column7
-            // 
-            Column7.DataPropertyName = "ngay_tao";
-            Column7.HeaderText = "Ngày Tạo";
-            Column7.MinimumWidth = 6;
-            Column7.Name = "Column7";
-            Column7.Width = 125;
-            // 
-            // Column8
-            // 
-            Column8.DataPropertyName = "trang_thai";
-            Column8.HeaderText = "Trạng thái";
-            Column8.MinimumWidth = 6;
-            Column8.Name = "Column8";
-            Column8.Width = 125;
             // 
             // tabControl1
             // 
@@ -501,14 +472,14 @@
             tabControl1.Location = new Point(12, 31);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(784, 398);
+            tabControl1.Size = new Size(784, 522);
             tabControl1.TabIndex = 1;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(941, 565);
             Controls.Add(tabControl1);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
@@ -576,9 +547,6 @@
         private TextBox txtMaHoaDon;
         private Label label1;
         private DataGridView dgvDsHoaDon;
-        private DataGridViewTextBoxColumn Column6;
-        private DataGridViewTextBoxColumn Column7;
-        private DataGridViewTextBoxColumn Column8;
         private TabControl tabControl1;
         private ToolStripMenuItem sảnPhẩmChiTiếtToolStripMenuItem;
     }

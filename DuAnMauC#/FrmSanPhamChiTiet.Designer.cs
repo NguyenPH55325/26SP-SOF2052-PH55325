@@ -46,8 +46,8 @@
             label6 = new Label();
             btnThem = new Button();
             label7 = new Label();
-            txtTenSanPham = new TextBox();
             txtGiaBan = new TextBox();
+            cbSanPham = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvDsSPCT).BeginInit();
             groupBox2.SuspendLayout();
             SuspendLayout();
@@ -75,6 +75,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(cbSanPham);
             groupBox2.Controls.Add(cbSize);
             groupBox2.Controls.Add(cbMau);
             groupBox2.Controls.Add(txtSoLuong);
@@ -90,7 +91,6 @@
             groupBox2.Controls.Add(label6);
             groupBox2.Controls.Add(btnThem);
             groupBox2.Controls.Add(label7);
-            groupBox2.Controls.Add(txtTenSanPham);
             groupBox2.Controls.Add(txtGiaBan);
             groupBox2.Location = new Point(10, 58);
             groupBox2.Name = "groupBox2";
@@ -162,7 +162,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(17, 44);
+            label4.Location = new Point(47, 76);
             label4.Name = "label4";
             label4.Size = new Size(67, 20);
             label4.TabIndex = 12;
@@ -170,7 +170,7 @@
             // 
             // txtMaSPCT
             // 
-            txtMaSPCT.Location = new Point(141, 41);
+            txtMaSPCT.Location = new Point(141, 76);
             txtMaSPCT.Name = "txtMaSPCT";
             txtMaSPCT.Size = new Size(193, 27);
             txtMaSPCT.TabIndex = 14;
@@ -198,7 +198,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(15, 76);
+            label5.Location = new Point(13, 39);
             label5.Name = "label5";
             label5.Size = new Size(101, 20);
             label5.TabIndex = 11;
@@ -207,7 +207,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(24, 113);
+            label6.Location = new Point(47, 116);
             label6.Name = "label6";
             label6.Size = new Size(60, 20);
             label6.TabIndex = 10;
@@ -232,19 +232,20 @@
             label7.TabIndex = 13;
             label7.Text = "Trạng Thái";
             // 
-            // txtTenSanPham
-            // 
-            txtTenSanPham.Location = new Point(141, 76);
-            txtTenSanPham.Name = "txtTenSanPham";
-            txtTenSanPham.Size = new Size(193, 27);
-            txtTenSanPham.TabIndex = 17;
-            // 
             // txtGiaBan
             // 
             txtGiaBan.Location = new Point(141, 113);
             txtGiaBan.Name = "txtGiaBan";
             txtGiaBan.Size = new Size(193, 27);
             txtGiaBan.TabIndex = 15;
+            // 
+            // cbSanPham
+            // 
+            cbSanPham.FormattingEnabled = true;
+            cbSanPham.Location = new Point(143, 36);
+            cbSanPham.Name = "cbSanPham";
+            cbSanPham.Size = new Size(151, 28);
+            cbSanPham.TabIndex = 30;
             // 
             // FrmSanPhamChiTiet
             // 
@@ -276,7 +277,6 @@
         private Label label6;
         private Button btnThem;
         private Label label7;
-        private TextBox txtTenSanPham;
         private TextBox txtGiaBan;
         private Label label1;
         private Label label2;
@@ -285,5 +285,6 @@
         private ComboBox cbMau;
         private TextBox txtSoLuong;
         private Label label3;
+        private ComboBox cbSanPham;
     }
 }

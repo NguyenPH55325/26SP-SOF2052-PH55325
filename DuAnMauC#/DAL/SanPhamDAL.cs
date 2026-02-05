@@ -1,26 +1,48 @@
 ﻿using DemoDuAnMauCSharp.Utils;
 using DuAnMauC_.DAO;
 using Microsoft.Data.SqlClient;
+using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace DuAnMauC_.DAL
 {
     public static class SanPhamDAL
     {
+        // ===== READ ALL =====
         public static DataTable SelectAll()
         {
             string sql = @"
                 SELECT 
-                    ma_sp AS MaSanPham,
-                    ten_sp AS TenSanPham,
-                    trang_thai AS TrangThai
+                    ma_sp       AS MaSanPham,
+                    ten_sp      AS TenSanPham,
+                    trang_thai  AS TrangThai
                 FROM san_pham
+                ORDER BY ma_sp DESC
             ";
 
             return DBUtil.ExecuteQueryTable(sql, new List<SqlParameter>());
         }
 
-        // ===================== TẠO SẢN PHẨM =====================
+        // ===== READ BY ID (phục vụ lọc/chi tiết nếu cần) =====
+        public static DataTable SelectById(string maSp)
+        {
+            string sql = @"
+                SELECT 
+                    ma_sp       AS MaSanPham,
+                    ten_sp      AS TenSanPham,
+                    trang_thai  AS TrangThai
+                FROM san_pham
+                WHERE ma_sp = @ma_sp
+            ";
+
+            return DBUtil.ExecuteQueryTable(sql, new List<SqlParameter>
+            {
+                new SqlParameter("@ma_sp", maSp)
+            });
+        }
+
+        // ===== CREATE =====
         public static void TaoMoi(SanPham sp)
         {
             string sql = @"
@@ -38,7 +60,7 @@ namespace DuAnMauC_.DAL
             DBUtil.ExecuteNonQuery(sql, param);
         }
 
-        // ===================== CẬP NHẬT SẢN PHẨM =====================
+        // ===== UPDATE =====
         public static void CapNhat(SanPham sp)
         {
             string sql = @"
@@ -58,45 +80,52 @@ namespace DuAnMauC_.DAL
             DBUtil.ExecuteNonQuery(sql, param);
         }
 
-        // ===================== ĐỔI TRẠNG THÁI (BẬT/TẮT) =====================
-        public static void DoiTrangThai(string maSanPham, bool trangThai)
+        // ===== SOFT DELETE: NGỪNG BÁN (khuyên dùng) =====
+        public static void NgungBan(string maSp)
         {
-            string sql = @"
-                UPDATE san_pham
-                SET trang_thai = @trang_thai
-                WHERE ma_sp = @ma_sp
-            ";
+            string sqlSp = @"UPDATE san_pham SET trang_thai = 0 WHERE ma_sp = @ma_sp";
+            string sqlSpct = @"UPDATE san_pham_chi_tiet SET trang_thai = 0 WHERE ma_sp = @ma_sp";
 
             Dictionary<string, object> param = new()
             {
-                { "@ma_sp", maSanPham },
-                { "@trang_thai", trangThai ? 1 : 0 }
+                { "@ma_sp", maSp }
             };
 
-            DBUtil.ExecuteNonQuery(sql, param);
+            // tắt trước ở SPCT rồi tắt SP
+            DBUtil.ExecuteNonQuery(sqlSpct, param);
+            DBUtil.ExecuteNonQuery(sqlSp, param);
         }
 
-        // ===================== XÓA SẢN PHẨM =====================
-        // Lưu ý: do bảng san_pham_chi_tiet có FK => phải xóa SPCT trước
-        public static void Xoa(string maSanPham)
+        // ===== AUTO ID: SP001... (bản MAX chắc kèo) =====
+        public static string TaoMaTuDong()
         {
-            string sqlCT = @"
-                DELETE FROM san_pham_chi_tiet
-                WHERE ma_sp = @ma_sp
+            string sql = @"
+                SELECT MAX(CAST(SUBSTRING(ma_sp, 3, 10) AS INT)) AS MaxSo
+                FROM san_pham
+                WHERE ma_sp LIKE 'SP%'
             ";
 
-            string sqlSP = @"
-                DELETE FROM san_pham
-                WHERE ma_sp = @ma_sp
+            DataTable dt = DBUtil.ExecuteQueryTable(sql, new List<SqlParameter>());
+
+            int max = 0;
+            if (dt.Rows.Count > 0 && dt.Rows[0]["MaxSo"] != DBNull.Value)
+                max = Convert.ToInt32(dt.Rows[0]["MaxSo"]);
+
+            int next = max + 1;
+            return "SP" + next.ToString("D3");
+        }
+
+        // ===== COMBO: chỉ lấy SP đang hoạt động =====
+        public static DataTable SelectForCombo()
+        {
+            string sql = @"
+                SELECT ma_sp AS MaSP, ten_sp AS TenSP
+                FROM san_pham
+                WHERE trang_thai = 1
+                ORDER BY ten_sp
             ";
 
-            Dictionary<string, object> param = new()
-            {
-                { "@ma_sp", maSanPham }
-            };
-
-            DBUtil.ExecuteNonQuery(sqlCT, param);
-            DBUtil.ExecuteNonQuery(sqlSP, param);
+            return DBUtil.ExecuteQueryTable(sql, new List<SqlParameter>());
         }
     }
 }

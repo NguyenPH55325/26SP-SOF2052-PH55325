@@ -1,5 +1,6 @@
 ﻿using DuAnMauC_.DAL;
 using System;
+using System.Data;
 using System.Windows.Forms;
 
 namespace DuAnMauC_
@@ -9,11 +10,17 @@ namespace DuAnMauC_
         public FrmSanPhamChiTiet()
         {
             InitializeComponent();
-            WireEvents();
+            InitUI();
             LoadCombos();
             SelectAll();
+            WireEvents();
+        }
 
-            txtMaSPCT.Focus();
+        private void InitUI()
+        {
+            txtMaSPCT.ReadOnly = true;
+            txtMaSPCT.Text = SanPhamChiTietDAL.TaoMaTuDong();
+            chkTrangThai.Checked = true;
         }
 
         private void WireEvents()
@@ -22,70 +29,82 @@ namespace DuAnMauC_
             btnSua.Click += btnSua_Click;
             btnXoa.Click += btnXoa_Click;
             dgvDsSPCT.CellClick += dgvDsSPCT_CellClick;
+            cbSanPham.SelectedIndexChanged += cbSanPham_SelectedIndexChanged;
         }
 
-        // ===================== LOAD COMBO =====================
+        // ===== LOAD COMBO =====
+        private bool _loaded = false;
+
         private void LoadCombos()
         {
-            // Màu
+            // ===== SẢN PHẨM (có "Tất cả") =====
+            DataTable dtSanPham = SanPhamDAL.SelectForCombo();
+
+            DataRow allRow = dtSanPham.NewRow();
+            allRow["MaSP"] = "";
+            allRow["TenSP"] = "-- Tất cả sản phẩm --";
+            dtSanPham.Rows.InsertAt(allRow, 0);
+
+            cbSanPham.DisplayMember = "TenSP";
+            cbSanPham.ValueMember = "MaSP";
+            cbSanPham.DataSource = dtSanPham;
+            cbSanPham.SelectedIndex = 0;
+
+            // ===== MÀU =====
             cbMau.DisplayMember = "TenMau";
             cbMau.ValueMember = "MaMau";
             cbMau.DataSource = MauSacDAL.SelectAll();
 
-            // Size
+            // ===== SIZE =====
             cbSize.DisplayMember = "TenSize";
             cbSize.ValueMember = "MaSize";
             cbSize.DataSource = SizeDAL.SelectAll();
+
+            _loaded = true;
         }
 
-        // ===================== LOAD GRID =====================
+
+
+        // ===== LOAD GRID =====
         private void SelectAll()
         {
             dgvDsSPCT.AutoGenerateColumns = true;
             dgvDsSPCT.DataSource = SanPhamChiTietDAL.SelectAll();
         }
 
-        // ===================== VALIDATE =====================
-        private bool ValidateInput(out string maSpct, out string maSp, out string maMau, out string maSize,
-                                   out decimal donGia, out int soLuong, out bool trangThai)
+        private void SelectBySanPham()
+        {
+            if (cbSanPham.SelectedValue == null) return;
+            string maSp = cbSanPham.SelectedValue.ToString();
+            dgvDsSPCT.DataSource = SanPhamChiTietDAL.SelectByMaSP(maSp);
+        }
+
+        // ===== READ FORM =====
+        private bool ReadForm(out string maSpct, out string maSp, out string maMau,
+                              out string maSize, out decimal donGia, out int soLuong, out bool trangThai)
         {
             maSpct = txtMaSPCT.Text.Trim();
-            maSp = txtTenSanPham.Text.Trim(); // ⚠️ hiện nhập MÃ SP vào đây
+            maSp = cbSanPham.SelectedValue?.ToString();
             maMau = cbMau.SelectedValue?.ToString();
             maSize = cbSize.SelectedValue?.ToString();
             trangThai = chkTrangThai.Checked;
 
-            if (string.IsNullOrWhiteSpace(maSpct))
-            {
-                MessageBox.Show("Vui lòng nhập Mã SPCT.");
-                donGia = 0; soLuong = 0;
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(maSp))
-            {
-                MessageBox.Show("Vui lòng nhập Mã SP (đang để ở ô Tên Sản Phẩm).");
-                donGia = 0; soLuong = 0;
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(maMau) || string.IsNullOrWhiteSpace(maSize))
-            {
-                MessageBox.Show("Vui lòng chọn Màu và Size.");
-                donGia = 0; soLuong = 0;
-                return false;
-            }
-
-            if (!decimal.TryParse(txtGiaBan.Text.Trim(), out donGia) || donGia < 0)
+            if (!decimal.TryParse(txtGiaBan.Text, out donGia) || donGia < 0)
             {
                 MessageBox.Show("Giá bán không hợp lệ.");
                 soLuong = 0;
                 return false;
             }
 
-            if (!int.TryParse(txtSoLuong.Text.Trim(), out soLuong) || soLuong < 0)
+            if (!int.TryParse(txtSoLuong.Text, out soLuong) || soLuong < 0)
             {
                 MessageBox.Show("Số lượng không hợp lệ.");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(maSp) || string.IsNullOrWhiteSpace(maMau) || string.IsNullOrWhiteSpace(maSize))
+            {
+                MessageBox.Show("Vui lòng chọn Sản phẩm, Màu và Size.");
                 return false;
             }
 
@@ -94,122 +113,132 @@ namespace DuAnMauC_
 
         private void ClearForm()
         {
-            txtMaSPCT.Clear();
-            txtTenSanPham.Clear();
+            txtMaSPCT.Text = SanPhamChiTietDAL.TaoMaTuDong();
             txtGiaBan.Clear();
             txtSoLuong.Clear();
             chkTrangThai.Checked = true;
-
-            if (cbMau.Items.Count > 0) cbMau.SelectedIndex = 0;
-            if (cbSize.Items.Count > 0) cbSize.SelectedIndex = 0;
-
-            txtMaSPCT.Focus();
+            txtGiaBan.Focus();
         }
 
-        // ===================== THÊM =====================
+        // ===== THÊM =====
         private void btnThem_Click(object sender, EventArgs e)
         {
-            try
+            if (!ReadForm(out string maSpct, out string maSp, out string maMau,
+                          out string maSize, out decimal donGia, out int soLuong, out bool trangThai))
+                return;
+
+            // chặn trùng biến thể
+            if (SanPhamChiTietDAL.KiemTraTrungBienThe(maSp, maMau, maSize).Rows.Count > 0)
             {
-                if (!ValidateInput(out string maSpct, out string maSp, out string maMau, out string maSize,
-                                   out decimal donGia, out int soLuong, out bool trangThai))
-                    return;
-
-                // Check trùng biến thể (SP + Màu + Size)
-                var dtCheck = SanPhamChiTietDAL.KiemTraTrungBienThe(maSp, maMau, maSize);
-                if (dtCheck.Rows.Count > 0)
-                {
-                    MessageBox.Show("Biến thể (SP + Màu + Size) đã tồn tại!");
-                    return;
-                }
-
-                SanPhamChiTietDAL.TaoMoi(maSpct, maSp, maMau, maSize, donGia, soLuong, trangThai);
-
-                MessageBox.Show("Thêm SPCT thành công ✅");
-                SelectAll();
-                ClearForm();
+                MessageBox.Show("Biến thể này đã tồn tại.");
+                return;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi thêm SPCT: " + ex.Message);
-            }
+
+            SanPhamChiTietDAL.TaoMoi(maSpct, maSp, maMau, maSize, donGia, soLuong, trangThai);
+            MessageBox.Show("Thêm SPCT thành công ✅");
+
+            SelectBySanPham();
+            ClearForm();
         }
 
-        // ===================== SỬA =====================
+        // ===== SỬA =====
         private void btnSua_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (!ValidateInput(out string maSpct, out string maSp, out string maMau, out string maSize,
-                                   out decimal donGia, out int soLuong, out bool trangThai))
-                    return;
+            if (!ReadForm(out string maSpct, out string maSp, out string maMau,
+                          out string maSize, out decimal donGia, out int soLuong, out bool trangThai))
+                return;
 
-                SanPhamChiTietDAL.CapNhat(maSpct, maSp, maMau, maSize, donGia, soLuong, trangThai);
+            SanPhamChiTietDAL.CapNhat(maSpct, maSp, maMau, maSize, donGia, soLuong, trangThai);
+            MessageBox.Show("Sửa SPCT thành công ✅");
 
-                MessageBox.Show("Sửa SPCT thành công ✅");
-                SelectAll();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi sửa SPCT: " + ex.Message);
-            }
+            SelectBySanPham();
         }
 
-        // ===================== XÓA =====================
+        // ===== XÓA =====
         private void btnXoa_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(txtMaSPCT.Text)) return;
+
+            if (MessageBox.Show("Xóa SPCT này?", "Xác nhận",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
+                return;
+
+            SanPhamChiTietDAL.XoaMem(txtMaSPCT.Text.Trim());
+            MessageBox.Show("Xóa thành công ✅");
+
+            SelectBySanPham();
+            ClearForm();
+        }
+
+        private bool _bindingGrid = false;
+
+        private void LoadGridBySanPham()
+        {
+            if (cbSanPham.SelectedValue == null) return;
+
+            _bindingGrid = true;
             try
             {
-                string maSpct = txtMaSPCT.Text.Trim();
-                if (string.IsNullOrWhiteSpace(maSpct))
-                {
-                    MessageBox.Show("Vui lòng chọn SPCT cần xóa.");
-                    return;
-                }
-
-                var confirm = MessageBox.Show("Xóa SPCT này luôn hả?", "Xác nhận",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                if (confirm != DialogResult.Yes) return;
-
-                SanPhamChiTietDAL.Xoa(maSpct);
-
-                MessageBox.Show("Xóa SPCT thành công ✅");
-                SelectAll();
-                ClearForm();
+                string maSp = cbSanPham.SelectedValue.ToString();
+                dgvDsSPCT.DataSource = string.IsNullOrEmpty(maSp)
+                    ? SanPhamChiTietDAL.SelectAll()
+                    : SanPhamChiTietDAL.SelectByMaSP(maSp);
             }
-            catch (Exception ex)
+            finally
             {
-                MessageBox.Show("Lỗi xóa SPCT: " + ex.Message);
+                _bindingGrid = false;
             }
         }
 
-        // ===================== CLICK GRID -> ĐỔ LÊN FORM =====================
+        // ===== GRID CLICK =====
         private void dgvDsSPCT_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            dgvDsSPCT.AllowUserToAddRows = false;
+            dgvDsSPCT.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDsSPCT.MultiSelect = false;
+            // click header hoặc click ngoài data
             if (e.RowIndex < 0) return;
+            if (e.RowIndex >= dgvDsSPCT.Rows.Count) return;
 
-            var row = dgvDsSPCT.Rows[e.RowIndex];
+            var gridRow = dgvDsSPCT.Rows[e.RowIndex];
 
-            txtMaSPCT.Text = row.Cells["MaSPCT"].Value?.ToString();
+            // nếu click vào dòng rỗng (new row)
+            if (gridRow.IsNewRow) return;
 
-            // tuỳ SelectAll() của m đang trả MaSP hay TenSanPham
-            if (dgvDsSPCT.Columns.Contains("MaSP"))
-                txtTenSanPham.Text = row.Cells["MaSP"].Value?.ToString();
-            else if (dgvDsSPCT.Columns.Contains("TenSanPham"))
-                txtTenSanPham.Text = row.Cells["TenSanPham"].Value?.ToString();
+            // nếu grid đang reload/bind lại
+            if (gridRow.DataBoundItem == null) return;
 
-            txtGiaBan.Text = row.Cells["DonGia"].Value?.ToString();
-            txtSoLuong.Text = row.Cells["SoLuong"].Value?.ToString();
+            if (gridRow.DataBoundItem is not DataRowView drv) return;
 
-            var maMau = row.Cells["MaMau"].Value?.ToString();
-            var maSize = row.Cells["MaSize"].Value?.ToString();
+            txtMaSPCT.Text = drv["MaSPCT"]?.ToString();
+            cbSanPham.SelectedValue = drv["MaSP"]?.ToString();
+            cbMau.SelectedValue = drv["MaMau"]?.ToString();
+            cbSize.SelectedValue = drv["MaSize"]?.ToString();
+            txtGiaBan.Text = drv["DonGia"]?.ToString();
+            txtSoLuong.Text = drv["SoLuong"]?.ToString();
 
-            if (!string.IsNullOrWhiteSpace(maMau)) cbMau.SelectedValue = maMau;
-            if (!string.IsNullOrWhiteSpace(maSize)) cbSize.SelectedValue = maSize;
-
-            var tt = row.Cells["TrangThai"].Value?.ToString();
+            var tt = drv["TrangThai"]?.ToString();
             chkTrangThai.Checked = (tt == "True" || tt == "1");
         }
+
+
+        private void cbSanPham_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!_loaded || cbSanPham.SelectedValue == null) return;
+
+            string maSp = cbSanPham.SelectedValue.ToString();
+
+            if (string.IsNullOrEmpty(maSp))
+            {
+                // chọn "-- Tất cả sản phẩm --"
+                dgvDsSPCT.DataSource = SanPhamChiTietDAL.SelectAll();
+            }
+            else
+            {
+                // chọn 1 sản phẩm cụ thể
+                dgvDsSPCT.DataSource = SanPhamChiTietDAL.SelectByMaSP(maSp);
+            }
+        }
+
     }
 }

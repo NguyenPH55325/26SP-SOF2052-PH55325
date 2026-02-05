@@ -89,5 +89,33 @@ namespace DuAnMauC_.DAL
 
             DBUtil.ExecuteNonQuery(sql, param);
         }
+        // ===================== THÊM HOẶC CẬP NHẬT CHI TIẾT HÓA ĐƠN =====================
+        public static void AddOrUpdate(ChiTietHoaDon ct)
+        {
+            string sql = @"
+        IF EXISTS (SELECT 1 FROM hoa_don_chi_tiet WHERE ma_hd = @ma_hd AND ma_spct = @ma_spct)
+        BEGIN
+            UPDATE hoa_don_chi_tiet
+            SET so_luong = so_luong + @so_luong,
+                don_gia = @don_gia
+            WHERE ma_hd = @ma_hd AND ma_spct = @ma_spct
+        END
+        ELSE
+        BEGIN
+            INSERT INTO hoa_don_chi_tiet(ma_hd, ma_spct, don_gia, so_luong)
+            VALUES(@ma_hd, @ma_spct, @don_gia, @so_luong)
+        END
+    ";
+
+            Dictionary<string, object> param = new()
+    {
+        {"@ma_hd", ct.MaHoaDon},
+        {"@ma_spct", ct.MaSanPhamChiTiet},
+        {"@don_gia", ct.DonGia},
+        {"@so_luong", ct.SoLuong},
+    };
+
+            DBUtil.ExecuteNonQuery(sql, param);
+        }
     }
 }

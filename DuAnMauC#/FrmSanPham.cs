@@ -1,13 +1,6 @@
-﻿using DuAnMauC_.DAL;
-using DuAnMauC_.DAO;
+﻿using DuAnMauC_.DAO;
+using DuAnMauC_.DAL;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DuAnMauC_
@@ -17,9 +10,11 @@ namespace DuAnMauC_
         public FrmSanPham()
         {
             InitializeComponent();
-            SelectAll();
             WireEvents();
+            SelectAll();
+            ClearForm();
         }
+
         private void WireEvents()
         {
             btnThemSanPham.Click += btnThemSanPham_Click;
@@ -27,33 +22,63 @@ namespace DuAnMauC_
             btnXoaSanPham.Click += btnXoaSanPham_Click;
             dgvDsSanPham.CellClick += dgvDsSanPham_CellClick;
         }
-        public void SelectAll()
-        {
-            dgvDsSanPham.DataSource = DAL.SanPhamDAL.SelectAll();
-            dgvDsSanPhamChiTiet.DataSource = DAL.SanPhamChiTietDAL.SelectAll();
 
+        private void SelectAll()
+        {
+            dgvDsSanPham.AutoGenerateColumns = true;
+            dgvDsSanPham.DataSource = SanPhamDAL.SelectAll();
+
+            // nếu form này có grid SPCT
+            if (dgvDsSanPhamChiTiet != null)
+            {
+                dgvDsSanPhamChiTiet.AutoGenerateColumns = true;
+                dgvDsSanPhamChiTiet.DataSource = SanPhamChiTietDAL.SelectAll();
+            }
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        // ===== CLEAR =====
+        private void ClearForm()
         {
+            txtMaSanPham.Text = SanPhamDAL.TaoMaTuDong();
+            txtMaSanPham.ReadOnly = true;
 
+            txtTenSanPham.Clear();
+            chkTrangThai.Checked = true;
+
+            txtTenSanPham.Focus();
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
+        // ===== READ FORM =====
+        private SanPham ReadForm_Them()
         {
-
+            return new SanPham
+            {
+                MaSanPham = SanPhamDAL.TaoMaTuDong(),
+                TenSanPham = txtTenSanPham.Text.Trim(),
+                TrangThai = chkTrangThai.Checked
+            };
         }
 
+        private SanPham ReadForm_Sua()
+        {
+            return new SanPham
+            {
+                MaSanPham = txtMaSanPham.Text.Trim(), // ⭐ mã đang chọn
+                TenSanPham = txtTenSanPham.Text.Trim(),
+                TrangThai = chkTrangThai.Checked
+            };
+        }
+
+        // ===== THÊM =====
         private void btnThemSanPham_Click(object sender, EventArgs e)
         {
             try
             {
-                var sp = ReadForm();
+                var sp = ReadForm_Them();
 
-                if (string.IsNullOrWhiteSpace(sp.MaSanPham) ||
-                    string.IsNullOrWhiteSpace(sp.TenSanPham))
+                if (string.IsNullOrWhiteSpace(sp.TenSanPham))
                 {
-                    MessageBox.Show("Mã SP và Tên SP không được để trống.");
+                    MessageBox.Show("Tên sản phẩm không được để trống.");
                     return;
                 }
 
@@ -68,40 +93,22 @@ namespace DuAnMauC_
                 MessageBox.Show("Lỗi thêm sản phẩm: " + ex.Message);
             }
         }
-        private SanPham ReadForm()
-        {
-            return new SanPham
-            {
-                MaSanPham = txtMaSanPham.Text.Trim(),
-                TenSanPham = txtTenSanPham.Text.Trim(),
-                TrangThai = chkTrangThai.Checked
-            };
-        }
 
-        private void ClearForm()
-        {
-            txtMaSanPham.Clear();
-            txtTenSanPham.Clear();
-            chkTrangThai.Checked = true;
-            txtMaSanPham.Focus();
-        }
-
-        // ===================== THÊM =====================
-        //private void btnThemSanPham_Click(object sender, EventArgs e)
-        //{
-            
-        //}
-
-        // ===================== SỬA =====================
+        // ===== SỬA =====
         private void btnSuaSanPham_Click(object sender, EventArgs e)
         {
             try
             {
-                var sp = ReadForm();
+                var sp = ReadForm_Sua();
 
                 if (string.IsNullOrWhiteSpace(sp.MaSanPham))
                 {
                     MessageBox.Show("Vui lòng chọn sản phẩm cần sửa.");
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(sp.TenSanPham))
+                {
+                    MessageBox.Show("Tên sản phẩm không được để trống.");
                     return;
                 }
 
@@ -116,7 +123,7 @@ namespace DuAnMauC_
             }
         }
 
-        // ===================== XÓA =====================
+        // ===== XÓA (NGỪNG BÁN) =====
         private void btnXoaSanPham_Click(object sender, EventArgs e)
         {
             try
@@ -124,31 +131,31 @@ namespace DuAnMauC_
                 string ma = txtMaSanPham.Text.Trim();
                 if (string.IsNullOrWhiteSpace(ma))
                 {
-                    MessageBox.Show("Vui lòng chọn sản phẩm cần xóa.");
+                    MessageBox.Show("Vui lòng chọn sản phẩm cần ngừng bán.");
                     return;
                 }
 
                 var confirm = MessageBox.Show(
-                    "Xóa sản phẩm này sẽ xóa luôn SP chi tiết. Tiếp tục?",
+                    "Ngừng bán sản phẩm này? (Sẽ tắt luôn các SPCT thuộc sản phẩm)",
                     "Xác nhận",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning);
 
                 if (confirm != DialogResult.Yes) return;
 
-                SanPhamDAL.Xoa(ma);
-                MessageBox.Show("Xóa sản phẩm thành công ✅");
+                SanPhamDAL.NgungBan(ma);
+                MessageBox.Show("Đã ngừng bán ✅");
 
                 SelectAll();
                 ClearForm();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Lỗi xóa sản phẩm: " + ex.Message);
+                MessageBox.Show("Lỗi ngừng bán: " + ex.Message);
             }
         }
 
-        // ===================== CLICK GRID =====================
+        // ===== CLICK GRID =====
         private void dgvDsSanPham_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -159,6 +166,13 @@ namespace DuAnMauC_
 
             var tt = row.Cells["TrangThai"].Value?.ToString();
             chkTrangThai.Checked = (tt == "True" || tt == "1");
+
+            // nếu có grid SPCT thì lọc theo SP đang chọn (tùy m thích)
+            if (dgvDsSanPhamChiTiet != null)
+            {
+                string maSp = txtMaSanPham.Text.Trim();
+                dgvDsSanPhamChiTiet.DataSource = SanPhamChiTietDAL.SelectByMaSP(maSp);
+            }
         }
     }
 }
