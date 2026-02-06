@@ -98,5 +98,27 @@ namespace DuAnMauC_.DAL
             DBUtil.ExecuteNonQuery(sqlCT, param);
             DBUtil.ExecuteNonQuery(sqlHD, param);
         }
+        // ===================== TẠO MÃ TỰ ĐỘNG =====================
+        public static string TaoMaTuDong()
+        {
+            string sql = @"
+        SELECT TOP 1 ma_hd
+        FROM hoa_don
+        WHERE ma_hd LIKE 'HD+%'
+        ORDER BY CAST(SUBSTRING(ma_hd, 4, 10) AS INT) DESC
+    ";
+
+            DataTable dt = DBUtil.ExecuteQueryTable(sql, new List<SqlParameter>());
+
+            if (dt.Rows.Count == 0) return "HD001";
+
+            string maCu = dt.Rows[0]["ma_hd"].ToString(); // ví dụ: HD+007
+            string so = maCu.Substring(3);                // "007"
+            if (!int.TryParse(so, out int n)) return "HD001";
+
+            int soMoi = n + 1;
+            return "HD+" + soMoi.ToString("D3");          // HD+008
+        }
+
     }
 }

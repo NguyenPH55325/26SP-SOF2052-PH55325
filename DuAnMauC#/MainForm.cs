@@ -128,7 +128,7 @@ namespace DuAnMauC_
             MessageBox.Show("Thanh toán thành công ✅");
             SelectAll();
         }
-    
+
         private void btnThem_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show(this, "Tạo hóa đơn mới", "Xác nhận",
@@ -136,23 +136,25 @@ namespace DuAnMauC_
 
             if (dialogResult != DialogResult.OK) return;
 
-            string maHD = "" + DateTime.Now.ToString("yyyyMMddHHmmss");
+            string maHD = HoaDonDAL.TaoMaTuDong();
             DateTime ngayTao = DateTime.Now;
 
             HoaDonDAL.TaoMoi(new HoaDon()
             {
                 MaHoaDon = maHD,
                 NgayTao = ngayTao,
-                TrangThai = false // mặc định chờ xác nhận
+                TrangThai = false // chờ xác nhận
             });
 
-            // set UI
             txtMaHoaDon.Text = maHD;
+            txtMaHoaDon.ReadOnly = true;
+
             txtNgayTao.Text = ngayTao.ToString("yyyy-MM-dd");
             rdoChoXacNhan.Checked = true;
 
-            SelectAll(); // load lại danh sách hóa đơn
+            SelectAll();
         }
+
 
 
         private void label15_Click(object sender, EventArgs e)
@@ -191,12 +193,51 @@ namespace DuAnMauC_
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show(this, "Xóa hóa đơn", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-            if (dialogResult == DialogResult.OK)
+            string maHD = txtMaHoaDon.Text.Trim();
+            if (string.IsNullOrWhiteSpace(maHD))
             {
-                HoaDonDAL.Xoa(txtMaHoaDon.Text);
+                MessageBox.Show("Vui lòng chọn hóa đơn cần xóa.");
+                return;
+            }
+
+            // Nếu đã thanh toán thì không cho xóa (tuỳ m)
+            if (rdoDaThanhToan.Checked)
+            {
+                MessageBox.Show("Hóa đơn đã thanh toán, không thể xóa.");
+                return;
+            }
+
+            // ✅ check hóa đơn có chi tiết không
+            DataTable ct = ChiTietHoaDonDAL.SelectAll(maHD);
+            if (ct != null && ct.Rows.Count > 0)
+            {
+                MessageBox.Show("Hóa đơn đang có sản phẩm. Xóa hết chi tiết trước rồi mới xóa hóa đơn.");
+                return;
+            }
+
+            var dialogResult = MessageBox.Show(this, "Xóa hóa đơn này?", "Xác nhận",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+            if (dialogResult != DialogResult.OK) return;
+
+            try
+            {
+                HoaDonDAL.Xoa(maHD);
+                MessageBox.Show("Xóa hóa đơn thành công ✅");
+                SelectAll();
+
+                // clear UI
+                txtMaHoaDon.Clear();
+                txtNgayTao.Clear();
+                rdoChoXacNhan.Checked = true;
+                dgvDsChiTietHoaDon.DataSource = null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi xóa hóa đơn: " + ex.Message);
             }
         }
+
         private void btnThemCT_Click(object sender, EventArgs e)
         {
             if (rdoDaThanhToan.Checked)
