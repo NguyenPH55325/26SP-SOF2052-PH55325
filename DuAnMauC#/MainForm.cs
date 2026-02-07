@@ -24,7 +24,7 @@ namespace DuAnMauC_
         private void MainForm_Load(object sender, EventArgs e)
         {
             dgvDsChiTietHoaDon.AutoGenerateColumns = true;
-            dgvDsChiTietHoaDon.Dock = DockStyle.Fill;
+          //  dgvDsChiTietHoaDon.Dock = DockStyle.Fill;
 
             SelectAll(); // ✅ GỌI Ở ĐÂY
 
@@ -34,6 +34,23 @@ namespace DuAnMauC_
 
             dgvDsHoaDon.DataSource = HoaDonDAL.SelectAll();
          
+        }
+        private void TinhTongTienHoaDon()
+        {
+            decimal tong = 0;
+
+            foreach (DataGridViewRow row in dgvDsChiTietHoaDon.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                if (row.Cells["ThanhTien"].Value != null &&
+                    decimal.TryParse(row.Cells["ThanhTien"].Value.ToString(), out decimal tien))
+                {
+                    tong += tien;
+                }
+            }
+
+            txtTongTien.Text = tong.ToString("N0"); // 240,000
         }
 
 
@@ -62,9 +79,10 @@ namespace DuAnMauC_
 
             DataTable data = ChiTietHoaDonDAL.SelectAll(hoaDon.MaHoaDon);
 
+
             dgvDsChiTietHoaDon.DataSource = null;
             dgvDsChiTietHoaDon.DataSource = data;
-
+            TinhTongTienHoaDon();
             rdoDaThanhToan.Checked = hoaDon.TrangThai;
             rdoChoXacNhan.Checked = !hoaDon.TrangThai;
 
@@ -403,6 +421,24 @@ namespace DuAnMauC_
                 txtThanhTien.Text = (donGia * soLuong).ToString();
             }
         }
+        private void OpenSingleForm<T>() where T : Form, new()
+        {
+            // tìm form đang mở
+            Form frm = Application.OpenForms
+                .Cast<Form>()
+                .FirstOrDefault(f => f is T);
+
+            if (frm != null)
+            {
+                frm.Activate();          // đưa lên trước
+                frm.WindowState = FormWindowState.Normal;
+            }
+            else
+            {
+                new T().Show();
+            }
+        }
+
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e) //hóa đơn
         {
@@ -411,26 +447,24 @@ namespace DuAnMauC_
 
         private void NhanVientoolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmNhanVien frm = new FrmNhanVien();
-            frm.Show(); // hoặc ShowDialog()
+            OpenSingleForm<FrmNhanVien>();
+            //FrmNhanVien frm = new FrmNhanVien();
+            //frm.Show(); // hoặc ShowDialog()
         }
 
         private void SanPhamToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmSanPham frm = new FrmSanPham();
-            frm.Show();
+            OpenSingleForm<FrmSanPham>();
         }
 
         private void KhachHangtoolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmKhachHang frm = new FrmKhachHang();
-            frm.Show();
+            OpenSingleForm<FrmKhachHang>();
         }
 
         private void sảnPhẩmChiTiếtToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmSanPhamChiTiet frm = new FrmSanPhamChiTiet();
-            frm.Show();
+            OpenSingleForm<FrmSanPhamChiTiet>();
         }
     }
 

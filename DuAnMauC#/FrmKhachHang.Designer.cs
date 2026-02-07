@@ -30,6 +30,7 @@
         {
             label17 = new Label();
             groupBox4 = new GroupBox();
+            chkTrangThai = new CheckBox();
             txtTenKH = new TextBox();
             txtSDT = new TextBox();
             btnXoa = new Button();
@@ -43,7 +44,6 @@
             txtMaKH = new TextBox();
             label24 = new Label();
             dgvDsKhachHang = new DataGridView();
-            chkTrangThai = new CheckBox();
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDsKhachHang).BeginInit();
             SuspendLayout();
@@ -81,6 +81,16 @@
             groupBox4.TabStop = false;
             groupBox4.Text = "Khách Hàng";
             groupBox4.Enter += groupBox4_Enter;
+            // 
+            // chkTrangThai
+            // 
+            chkTrangThai.AutoSize = true;
+            chkTrangThai.Location = new Point(85, 122);
+            chkTrangThai.Name = "chkTrangThai";
+            chkTrangThai.Size = new Size(105, 24);
+            chkTrangThai.TabIndex = 19;
+            chkTrangThai.Text = "Hoạt Động";
+            chkTrangThai.UseVisualStyleBackColor = true;
             // 
             // txtTenKH
             // 
@@ -194,16 +204,6 @@
             dgvDsKhachHang.Size = new Size(747, 141);
             dgvDsKhachHang.TabIndex = 8;
             dgvDsKhachHang.CellClick += dgvDsKhachHang_CellClick;
-            // 
-            // chkTrangThai
-            // 
-            chkTrangThai.AutoSize = true;
-            chkTrangThai.Location = new Point(85, 122);
-            chkTrangThai.Name = "chkTrangThai";
-            chkTrangThai.Size = new Size(105, 24);
-            chkTrangThai.TabIndex = 19;
-            chkTrangThai.Text = "Hoạt Động";
-            chkTrangThai.UseVisualStyleBackColor = true;
             // 
             // FrmKhachHang
             // 

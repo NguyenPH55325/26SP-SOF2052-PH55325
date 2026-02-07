@@ -191,29 +191,22 @@ namespace DuAnMauC_
         }
 
         // ===== GRID CLICK =====
+        private bool _suppressFilter = false;
         private void dgvDsSPCT_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            dgvDsSPCT.AllowUserToAddRows = false;
-            dgvDsSPCT.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvDsSPCT.MultiSelect = false;
-            // click header hoặc click ngoài data
             if (e.RowIndex < 0) return;
-            if (e.RowIndex >= dgvDsSPCT.Rows.Count) return;
-
             var gridRow = dgvDsSPCT.Rows[e.RowIndex];
-
-            // nếu click vào dòng rỗng (new row)
             if (gridRow.IsNewRow) return;
-
-            // nếu grid đang reload/bind lại
-            if (gridRow.DataBoundItem == null) return;
-
             if (gridRow.DataBoundItem is not DataRowView drv) return;
 
             txtMaSPCT.Text = drv["MaSPCT"]?.ToString();
+
+            _suppressFilter = true; // ✅ chặn lọc
             cbSanPham.SelectedValue = drv["MaSP"]?.ToString();
             cbMau.SelectedValue = drv["MaMau"]?.ToString();
             cbSize.SelectedValue = drv["MaSize"]?.ToString();
+            _suppressFilter = false;
+
             txtGiaBan.Text = drv["DonGia"]?.ToString();
             txtSoLuong.Text = drv["SoLuong"]?.ToString();
 
@@ -222,23 +215,20 @@ namespace DuAnMauC_
         }
 
 
+
         private void cbSanPham_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!_loaded || cbSanPham.SelectedValue == null) return;
+            if (!_loaded || _suppressFilter) return; 
+            if (cbSanPham.SelectedValue == null) return;
 
             string maSp = cbSanPham.SelectedValue.ToString();
 
             if (string.IsNullOrEmpty(maSp))
-            {
-                // chọn "-- Tất cả sản phẩm --"
                 dgvDsSPCT.DataSource = SanPhamChiTietDAL.SelectAll();
-            }
             else
-            {
-                // chọn 1 sản phẩm cụ thể
                 dgvDsSPCT.DataSource = SanPhamChiTietDAL.SelectByMaSP(maSp);
-            }
         }
+
 
     }
 }

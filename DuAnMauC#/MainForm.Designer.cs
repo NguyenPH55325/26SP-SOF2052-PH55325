@@ -38,6 +38,8 @@
             SanPhamToolStripMenuItem = new ToolStripMenuItem();
             sảnPhẩmChiTiếtToolStripMenuItem = new ToolStripMenuItem();
             tabPageHDCT = new TabPage();
+            label9 = new Label();
+            txtTongTien = new TextBox();
             dgvDsChiTietHoaDon = new DataGridView();
             tabPage1 = new TabPage();
             groupBox2 = new GroupBox();
@@ -143,6 +145,8 @@
             // 
             // tabPageHDCT
             // 
+            tabPageHDCT.Controls.Add(label9);
+            tabPageHDCT.Controls.Add(txtTongTien);
             tabPageHDCT.Controls.Add(dgvDsChiTietHoaDon);
             tabPageHDCT.Location = new Point(4, 29);
             tabPageHDCT.Name = "tabPageHDCT";
@@ -152,14 +156,30 @@
             tabPageHDCT.Text = "Hóa Đơn Chi Tiết";
             tabPageHDCT.UseVisualStyleBackColor = true;
             // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(102, 17);
+            label9.Name = "label9";
+            label9.Size = new Size(75, 20);
+            label9.TabIndex = 2;
+            label9.Text = "Tổng Tiền";
+            // 
+            // txtTongTien
+            // 
+            txtTongTien.Location = new Point(183, 17);
+            txtTongTien.Name = "txtTongTien";
+            txtTongTien.Size = new Size(164, 27);
+            txtTongTien.TabIndex = 1;
+            // 
             // dgvDsChiTietHoaDon
             // 
             dgvDsChiTietHoaDon.BackgroundColor = SystemColors.ActiveBorder;
             dgvDsChiTietHoaDon.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDsChiTietHoaDon.Location = new Point(3, 3);
+            dgvDsChiTietHoaDon.Location = new Point(3, 67);
             dgvDsChiTietHoaDon.Name = "dgvDsChiTietHoaDon";
             dgvDsChiTietHoaDon.RowHeadersWidth = 51;
-            dgvDsChiTietHoaDon.Size = new Size(616, 266);
+            dgvDsChiTietHoaDon.Size = new Size(767, 266);
             dgvDsChiTietHoaDon.TabIndex = 0;
             dgvDsChiTietHoaDon.CellContentClick += dgvDsChiTietHoaDon_CellContentClick;
             // 
@@ -296,20 +316,22 @@
             // 
             // txtMaSanPham
             // 
+            txtMaSanPham.ForeColor = SystemColors.ActiveCaptionText;
             txtMaSanPham.Location = new Point(114, 41);
             txtMaSanPham.Name = "txtMaSanPham";
             txtMaSanPham.Size = new Size(219, 27);
             txtMaSanPham.TabIndex = 1;
+            txtMaSanPham.Text = "SPCT";
             txtMaSanPham.TextChanged += txtMaSanPham_TextChanged;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(6, 41);
+            label5.Location = new Point(36, 41);
             label5.Name = "label5";
-            label5.Size = new Size(99, 20);
+            label5.Size = new Size(67, 20);
             label5.TabIndex = 0;
-            label5.Text = "Mã Sản Phẩm";
+            label5.Text = "Mã SPCT";
             // 
             // label3
             // 
@@ -491,6 +513,7 @@
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             tabPageHDCT.ResumeLayout(false);
+            tabPageHDCT.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDsChiTietHoaDon).EndInit();
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
@@ -549,5 +572,7 @@
         private DataGridView dgvDsHoaDon;
         private TabControl tabControl1;
         private ToolStripMenuItem sảnPhẩmChiTiếtToolStripMenuItem;
+        private TextBox txtTongTien;
+        private Label label9;
     }
 }

@@ -12,9 +12,9 @@ namespace DuAnMauC_
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
            
-           Application.Run(new FrmLogin());
+        //   Application.Run(new FrmLogin());
 
-         //  Application.Run(new MainForm());
+           Application.Run(new MainForm());
 
         }
 

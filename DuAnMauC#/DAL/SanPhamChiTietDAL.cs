@@ -26,9 +26,9 @@ namespace DuAnMauC_.DAL
                     ct.ma_spct   AS MaSPCT,
                     ct.ma_sp     AS MaSP,
                     sp.ten_sp    AS TenSanPham,
-                 
+                    ms.ma_mau    AS MaMau,
                     ms.ten_mau   AS TenMau,
-                 
+                    sz.ma_size   AS MaSize,
                     sz.ten_size  AS TenSize,
                     ct.don_gia   AS DonGia,
                     ct.so_luong  AS SoLuong,
